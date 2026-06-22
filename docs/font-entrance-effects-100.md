@@ -1,3 +1,5 @@
+<p align="right"><strong>简体中文</strong> · <a href="#english-overview">English overview ↓</a></p>
+
 # 100 种字体出现方式参考（数学表达 × 创意）
 
 > 本文档用于后续在 **Remotion** 中实现"文字/字体出现动画"时的灵感与公式参考。**本文件只做设计与数学表达，不包含可直接运行的 Remotion 代码。**
@@ -830,3 +832,53 @@ npx remotion render src/index.ts SceneHero out.mp4 --props='{"entries":[{"text":
 ---
 
 *文档用途：Remotion 文字动画的设计灵感与数学参考。后续实现时，将上述 `t`、`p`、`d`、`m`、`delay(i)` 等映射到 `useCurrentFrame` / `interpolate` / `spring` / `Easing` 即可。*
+
+---
+
+<h2 id="english-overview">English overview</h2>
+
+<p align="right"><a href="#100-种字体出现方式参考数学表达--创意">↑ 简体中文（full document）</a></p>
+
+This document is a **design + math reference** for "text/font entrance animations" in **Remotion**. It contains design notes and formulas only — no runnable Remotion code. The body above is written in Chinese; this section summarizes it in English. (The 100 effects' English names are already listed inline above as the second line of each entry, and in machine-readable form in [`effects.json`](./effects.json).)
+
+### Notation
+
+| Symbol | Meaning |
+|---|---|
+| `frame` / `fps` | current frame (`useCurrentFrame()`) / frame rate |
+| `t` | normalized progress `t = clamp((frame - delay) / dur, 0, 1)`, `t ∈ [0,1]` |
+| `p` | eased progress `p = ease(t)` |
+| `i` / `N` | index / total count of animation units (char / word / line) |
+| `u` | unit normalized position `u = i / max(N-1, 1)` |
+| `τ` | unit-local progress after stagger offset |
+| `rand(i)` | deterministic per-seed pseudo-random `∈ [0,1)` (stable per frame) |
+| `noise(x)` | 1D smooth / Perlin noise `∈ [-1,1]` |
+| `lerp(a,b,p)` | linear interpolation, maps to Remotion's `interpolate` |
+
+### The 12 categories (A–L)
+
+| Cat | Theme | Math means |
+|---|---|---|
+| A | Opacity · polynomial & exponential curves | polynomials, exp/log, Sigmoid, Gaussian, power-step |
+| B | Easing & directional motion | easings, back/elastic overshoot, projectile, damped spring |
+| C | Scale · transform · 3D | spring pop, squash/stretch, perspective, card flip, extrude |
+| D | Blur · filters | blur-to-focus, chromatic aberration, halftone, pixelate, heat-haze |
+| E | Trigonometric · wave | traveling/standing sine, Lissajous, polar spiral, cycloid |
+| F | Per-character stagger | typewriter, linear/center-out/Gaussian stagger, domino, blinds |
+| G | Clip · mask | wipe, diagonal, iris, mosaic, scanline, handwriting, liquid fill |
+| H | Noise · randomness | scramble/decode, dither, Brownian, Poisson, curl-noise, SNR rise |
+| I | Particles · reassembly | assemble, reverse-shatter, shockwave, voxel stack, mitosis |
+| J | Color · light | hue-rotate, gradient sweep, blackbody, long-shadow, neon |
+| K | Glitch · datamosh | RGB tear, datamosh cascade, square-wave strobe |
+| L | Fractal · chaos | fractal unfold, Lorenz attractor settle, logistic bifurcation |
+
+### Effect library + scene templates
+
+The 100 effects are pure **entrance/exit atoms** (`effectId ∈ [1,100]`): each only describes *how a single piece of text enters/exits*. **Scene templates** own layout / role / dwell / stacking. Any atom plugs into any scene.
+
+- 9 scenes: Hero, Caption, List, LowerThird, Emphasis, Gallery, Reel, Thumb, Wall.
+- All scenes are **props-driven** (Zod schema + `calculateMetadata` auto duration), so other AIs/programs render with zero code changes.
+- For rendering commands, per-scene props examples, and the configurable typography/position params (`fontSize/fontWeight/fontFamily/letterSpacing/align/vAlign/offsetX/offsetY/...`), see **[`ai-usage.en.md`](./ai-usage.en.md)**.
+- For a project overview see **[`../README.en.md`](../README.en.md)**.
+
+> When implementing, map `t`, `p`, `d`, `m`, `delay(i)` to `useCurrentFrame` / `interpolate` / `spring` / `Easing`.

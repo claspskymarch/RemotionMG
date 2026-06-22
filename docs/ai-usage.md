@@ -1,3 +1,5 @@
+<p align="right"><strong>简体中文</strong> · <a href="./ai-usage.en.md">English</a></p>
+
 # AI 调用指南（零改代码出片）
 
 本项目把文字动效拆成两层，**其他 AI / 程序只需传 JSON props 即可渲染**，无需改动源码。
@@ -39,6 +41,33 @@ npx remotion still  src/index.ts <SceneId> out.png --frame=40 --props='<JSON>'
 ```
 
 **时长无需指定**：每个场景用 `calculateMetadata` 按 props 自动计算 `durationInFrames`。
+
+### 通用可选排版/位置参数（全部可选，向后兼容）
+
+除文字与 `effectId` 外，文字场景还接受以下可选 props 定义排版与位置；不传即用默认值：
+
+| 参数 | 类型 | 含义 | 适用场景 |
+|---|---|---|---|
+| `fontSize` | number | 字号(px) | 全部文字场景 |
+| `fontWeight` | number | 字重(100–900) | Hero/Caption/List/Emphasis/LowerThird |
+| `fontFamily` | string | 字体族 | 同上 |
+| `letterSpacing` | number | 字间距(px) | 同上 |
+| `align` | `left\|center\|right` | 水平对齐 | Hero/Caption/Emphasis |
+| `vAlign` | `top\|center\|bottom` | 垂直对齐 | Hero |
+| `offsetX`/`offsetY` | number | 位置偏移(px) | Hero/Caption/LowerThird |
+| `subSize`/`subColor` | number/string | 副标题字号/颜色 | Hero |
+| `showLabel` | boolean | 是否显示左上角场景标签 | 全部 |
+
+示例（左对齐置顶、细体、字间距、自定位置、隐藏标签）：
+```bash
+npx remotion render src/index.ts SceneHero out.mp4 --props='{
+  "entries":[{"text":"左上角标题","sub":"custom","effectId":21}],
+  "timing":{"inF":22,"holdF":40,"outF":18},
+  "background":"#0c0e1c","color":"#7fe3ff",
+  "fontSize":120,"fontWeight":400,"letterSpacing":8,
+  "align":"left","vAlign":"top","offsetX":40,"offsetY":20,"showLabel":false
+}'
+```
 
 ### 各场景 props 示例
 

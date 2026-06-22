@@ -17,6 +17,17 @@ export {
 
 import {clamp01, lerp, easeOutCubic, rand2} from '../effects/showcaseKit';
 
+/** 场景默认字体族（中英文兼容）。 */
+export const DEFAULT_FONT_FAMILY = 'Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
+
+/** 水平对齐 → flex 主轴/CSS textAlign。 */
+export const alignToFlex = (a?: 'left' | 'center' | 'right'): 'flex-start' | 'center' | 'flex-end' =>
+  a === 'left' ? 'flex-start' : a === 'right' ? 'flex-end' : 'center';
+
+/** 垂直对齐 → flex 主轴。 */
+export const vAlignToFlex = (a?: 'top' | 'center' | 'bottom'): 'flex-start' | 'center' | 'flex-end' =>
+  a === 'top' ? 'flex-start' : a === 'bottom' ? 'flex-end' : 'center';
+
 /**
  * 在场度 presence ∈ [0,1]：1 = 完全到位（稳定态），0 = 完全缺席。
  *  - phase='in'：presence = ease(t)

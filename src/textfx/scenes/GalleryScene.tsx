@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {EFFECTS, effectById} from '../library';
-import {clamp01, lerp, easeOutCubic} from '../shared';
+import {clamp01, lerp, easeOutCubic, DEFAULT_FONT_FAMILY} from '../shared';
 
 /**
  * 场景 · Gallery 目录陈列
@@ -17,21 +17,31 @@ export const GalleryScene: React.FC<{
   background?: string;
   color?: string;
   fontSize?: number;
+  fontWeight?: number;
+  fontFamily?: string;
+  letterSpacing?: number;
+  showLabel?: boolean;
 }> = ({
   effectIds,
   background = 'radial-gradient(circle at 50% 42%, #16213f 0%, #0a0e1c 60%, #05060d 100%)',
   color = '#ffffff',
   fontSize = 150,
+  fontWeight = 900,
+  fontFamily = DEFAULT_FONT_FAMILY,
+  letterSpacing = 0,
+  showLabel = true,
 }) => {
   const frame = useCurrentFrame();
   const effects = effectIds && effectIds.length > 0 ? effectIds.map(effectById) : EFFECTS;
   const active = Math.floor(frame / GallerySEG);
 
   return (
-    <AbsoluteFill style={{background, color, fontFamily: 'Arial, "PingFang SC", sans-serif'}}>
-      <div style={{position: 'absolute', left: 60, top: 48, fontSize: 24, letterSpacing: 4, color: '#5b6688'}}>
-        GALLERY · 目录陈列 · {Math.min(active + 1, effects.length)} / {effects.length}
-      </div>
+    <AbsoluteFill style={{background, color, fontFamily}}>
+      {showLabel ? (
+        <div style={{position: 'absolute', left: 60, top: 48, fontSize: 24, letterSpacing: 4, color: '#5b6688'}}>
+          GALLERY · 目录陈列 · {Math.min(active + 1, effects.length)} / {effects.length}
+        </div>
+      ) : null}
 
       {effects.map((fx, i) => {
         const d = (frame - i * GallerySEG) / GallerySEG;
@@ -50,7 +60,7 @@ export const GalleryScene: React.FC<{
                 t={t}
                 frame={frame}
                 seed={i + 1}
-                baseStyle={{fontSize, fontWeight: 900, lineHeight: 1, textAlign: 'center'}}
+                baseStyle={{fontSize, fontWeight, letterSpacing, lineHeight: 1, textAlign: 'center'}}
               />
               <div style={{marginTop: 30, fontSize: 30, color: '#8ea0d6', opacity: clamp01((t - 0.5) / 0.4)}}>
                 {fx.category}
@@ -80,7 +90,8 @@ export const GalleryScene: React.FC<{
               opacity: opacity * 0.85,
               whiteSpace: 'nowrap',
               fontSize,
-              fontWeight: 900,
+              fontWeight,
+              letterSpacing,
               color: '#8ea0d6',
               zIndex: i,
             }}
