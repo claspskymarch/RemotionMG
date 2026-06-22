@@ -3,15 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>文字动效预览 · 100 法 + 场景</title>
+<title>文字动效预览 · 100 法 + 场景 / Text-effect preview</title>
 <style>
   :root { color-scheme: dark; }
   body { margin: 0; background: #05060d; color: #e7ecff; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
-  header { padding: 28px 28px 8px; }
+  header { padding: 28px 28px 8px; position: relative; }
   header h1 { margin: 0 0 6px; font-size: 24px; }
   header p { margin: 4px 0; color: #8ea0d6; font-size: 14px; }
+  .langbtn { position: absolute; top: 24px; right: 28px; display: flex; gap: 6px; }
+  .langbtn button { cursor: pointer; padding: 6px 14px; border-radius: 8px; border: 1px solid #2a3454; background: #0c1022; color: #8ea0d6; font-size: 13px; font-weight: 700; }
+  .langbtn button.active { background: #1d63ff; border-color: #1d63ff; color: #fff; }
   .filter { margin: 14px 0; }
-  .filter input { width: 280px; max-width: 60vw; padding: 8px 12px; border-radius: 8px; border: 1px solid #2a3454; background: #0c1022; color: #e7ecff; font-size: 14px; }
+  .filter input { width: 320px; max-width: 70vw; padding: 8px 12px; border-radius: 8px; border: 1px solid #2a3454; background: #0c1022; color: #e7ecff; font-size: 14px; }
   section { padding: 8px 28px 20px; }
   section h2 { font-size: 17px; color: #4aa3ff; border-bottom: 1px solid #1c2540; padding-bottom: 8px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
@@ -20,31 +23,46 @@
   figcaption { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 2px; }
   figcaption .id { color: #4aa3ff; font-weight: 800; font-size: 12px; }
   figcaption .name { font-weight: 700; font-size: 15px; }
-  figcaption .en { color: #8ea0d6; font-size: 12px; }
+  figcaption .sub { color: #8ea0d6; font-size: 12px; }
   figcaption code { color: #b6c2ea; font-size: 11px; background: #0e1430; padding: 2px 6px; border-radius: 5px; margin-top: 4px; word-break: break-all; }
   table { border-collapse: collapse; width: 100%; font-size: 13px; }
   th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid #1c2540; }
   th { color: #8ea0d6; }
   a { color: inherit; text-decoration: none; }
   .hidden { display: none !important; }
+  /* 语言切换：默认中文 */
+  body[data-lang="zh"] .en { display: none; }
+  body[data-lang="en"] .zh { display: none; }
 </style>
 </head>
-<body>
+<body data-lang="zh">
 <header>
-  <h1>文字动效预览 · 100 法 + 场景模板</h1>
-  <p>点击缩略图查看大图。动态总览见 <code>docs/thumbnails-contact-sheet.png</code>；动起来的预览墙渲染合成 <code>SceneWall</code>。</p>
-  <p>交互式实时预览：<code>npm run dev</code> → 打开 <code>SceneThumb</code>，在右侧 schema 面板改 <code>effectId</code>(1–100)。</p>
-  <div class="filter"><input id="q" type="search" placeholder="按编号 / 名称 / 公式过滤，如 K95、螺旋、spring" /></div>
+  <div class="langbtn">
+    <button id="lang-zh" class="active" onclick="setLang('zh')">中</button>
+    <button id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+  <h1><span class="zh">文字动效预览 · 100 法 + 场景模板</span><span class="en">Text-effect preview · 100 atoms + scene templates</span></h1>
+  <p>
+    <span class="zh">点击缩略图查看大图。动态总览见 <code>docs/thumbnails-contact-sheet.png</code>；动起来的预览墙渲染合成 <code>SceneWall</code>。</span>
+    <span class="en">Click a thumbnail to enlarge. For a static overview see <code>docs/thumbnails-contact-sheet.png</code>; for a moving preview wall render the <code>SceneWall</code> composition.</span>
+  </p>
+  <p>
+    <span class="zh">交互式实时预览：<code>npm run dev</code> → 打开 <code>SceneThumb</code>，在右侧 schema 面板改 <code>effectId</code>(1–100)。</span>
+    <span class="en">Interactive realtime: <code>npm run dev</code> → open <code>SceneThumb</code>, change <code>effectId</code>(1–100) in the schema panel.</span>
+  </p>
+  <div class="filter"><input id="q" type="search" placeholder="按编号 / 名称 / 公式过滤 · filter by id / name / formula (K95, 螺旋, spring)" /></div>
 </header>
-<section><h2>A · 透明度 · 多项式与指数曲线</h2><div class="grid">
+<section><h2><span class="zh">A · 透明度 · 多项式与指数曲线</span><span class="en">A · Opacity · polynomial &amp; exponential curves</span></h2><div class="grid">
       <figure class="card" id="A01">
         <a href="thumbnails/A01.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/A01.png" alt="线性淡入" />
         </a>
         <figcaption>
           <span class="id">A01</span>
-          <span class="name">线性淡入</span>
-          <span class="en">Linear Fade</span>
+          <span class="name zh">线性淡入</span>
+          <span class="name en">Linear Fade</span>
+          <span class="sub zh">Linear Fade</span>
+          <span class="sub en">线性淡入</span>
           <code>opacity = t</code>
         </figcaption>
       </figure>
@@ -54,8 +72,10 @@
         </a>
         <figcaption>
           <span class="id">A02</span>
-          <span class="name">二次淡入</span>
-          <span class="en">Quadratic Ease-In</span>
+          <span class="name zh">二次淡入</span>
+          <span class="name en">Quadratic Ease-In</span>
+          <span class="sub zh">Quadratic Ease-In</span>
+          <span class="sub en">二次淡入</span>
           <code>opacity = t²</code>
         </figcaption>
       </figure>
@@ -65,8 +85,10 @@
         </a>
         <figcaption>
           <span class="id">A03</span>
-          <span class="name">三次缓出</span>
-          <span class="en">Cubic Ease-Out</span>
+          <span class="name zh">三次缓出</span>
+          <span class="name en">Cubic Ease-Out</span>
+          <span class="sub zh">Cubic Ease-Out</span>
+          <span class="sub en">三次缓出</span>
           <code>opacity = 1 − (1 − t)³</code>
         </figcaption>
       </figure>
@@ -76,8 +98,10 @@
         </a>
         <figcaption>
           <span class="id">A04</span>
-          <span class="name">指数冲入</span>
-          <span class="en">Exponential Ease-Out</span>
+          <span class="name zh">指数冲入</span>
+          <span class="name en">Exponential Ease-Out</span>
+          <span class="sub zh">Exponential Ease-Out</span>
+          <span class="sub en">指数冲入</span>
           <code>opacity = 1 − 2^(−10t)</code>
         </figcaption>
       </figure>
@@ -87,8 +111,10 @@
         </a>
         <figcaption>
           <span class="id">A05</span>
-          <span class="name">对数渐显</span>
-          <span class="en">Logarithmic Reveal</span>
+          <span class="name zh">对数渐显</span>
+          <span class="name en">Logarithmic Reveal</span>
+          <span class="sub zh">Logarithmic Reveal</span>
+          <span class="sub en">对数渐显</span>
           <code>opacity = ln(1 + (e−1)·t)</code>
         </figcaption>
       </figure>
@@ -98,8 +124,10 @@
         </a>
         <figcaption>
           <span class="id">A06</span>
-          <span class="name">Sigmoid 渐显</span>
-          <span class="en">Logistic S-Curve</span>
+          <span class="name zh">Sigmoid 渐显</span>
+          <span class="name en">Logistic S-Curve</span>
+          <span class="sub zh">Logistic S-Curve</span>
+          <span class="sub en">Sigmoid 渐显</span>
           <code>opacity = 1 / (1 + e^(−k(t−0.5)))</code>
         </figcaption>
       </figure>
@@ -109,8 +137,10 @@
         </a>
         <figcaption>
           <span class="id">A07</span>
-          <span class="name">高斯闪现</span>
-          <span class="en">Gaussian Flash-In</span>
+          <span class="name zh">高斯闪现</span>
+          <span class="name en">Gaussian Flash-In</span>
+          <span class="sub zh">Gaussian Flash-In</span>
+          <span class="sub en">高斯闪现</span>
           <code>b = 1 + A·e^(−(t−μ)²/2σ²)</code>
         </figcaption>
       </figure>
@@ -120,8 +150,10 @@
         </a>
         <figcaption>
           <span class="id">A08</span>
-          <span class="name">伽马淡入</span>
-          <span class="en">Gamma Fade</span>
+          <span class="name zh">伽马淡入</span>
+          <span class="name en">Gamma Fade</span>
+          <span class="sub zh">Gamma Fade</span>
+          <span class="sub en">伽马淡入</span>
           <code>opacity = t^(1/2.2)</code>
         </figcaption>
       </figure>
@@ -131,8 +163,10 @@
         </a>
         <figcaption>
           <span class="id">A09</span>
-          <span class="name">双指数过冲</span>
-          <span class="en">Bi-Exponential Overshoot</span>
+          <span class="name zh">双指数过冲</span>
+          <span class="name en">Bi-Exponential Overshoot</span>
+          <span class="sub zh">Bi-Exponential Overshoot</span>
+          <span class="sub en">双指数过冲</span>
           <code>v = (1−e^(−at))(1+b·e^(−ct))</code>
         </figcaption>
       </figure>
@@ -142,20 +176,24 @@
         </a>
         <figcaption>
           <span class="id">A10</span>
-          <span class="name">幂律阶梯</span>
-          <span class="en">Power-Step Fade</span>
+          <span class="name zh">幂律阶梯</span>
+          <span class="name en">Power-Step Fade</span>
+          <span class="sub zh">Power-Step Fade</span>
+          <span class="sub en">幂律阶梯</span>
           <code>opacity = ⌊t·k⌋/k (段内 t²)</code>
         </figcaption>
       </figure></div></section>
-<section><h2>B · 缓动与方向位移</h2><div class="grid">
+<section><h2><span class="zh">B · 缓动与方向位移</span><span class="en">B · Easing &amp; directional motion</span></h2><div class="grid">
       <figure class="card" id="B11">
         <a href="thumbnails/B11.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/B11.png" alt="上移淡入" />
         </a>
         <figcaption>
           <span class="id">B11</span>
-          <span class="name">上移淡入</span>
-          <span class="en">Slide-Up Fade</span>
+          <span class="name zh">上移淡入</span>
+          <span class="name en">Slide-Up Fade</span>
+          <span class="sub zh">Slide-Up Fade</span>
+          <span class="sub en">上移淡入</span>
           <code>y=lerp(50,0,easeOut)</code>
         </figcaption>
       </figure>
@@ -165,8 +203,10 @@
         </a>
         <figcaption>
           <span class="id">B12</span>
-          <span class="name">回退超调滑入</span>
-          <span class="en">Back Ease</span>
+          <span class="name zh">回退超调滑入</span>
+          <span class="name en">Back Ease</span>
+          <span class="sub zh">Back Ease</span>
+          <span class="sub en">回退超调滑入</span>
           <code>easeOutBack(t)</code>
         </figcaption>
       </figure>
@@ -176,8 +216,10 @@
         </a>
         <figcaption>
           <span class="id">B13</span>
-          <span class="name">弹性滑入</span>
-          <span class="en">Elastic Slide</span>
+          <span class="name zh">弹性滑入</span>
+          <span class="name en">Elastic Slide</span>
+          <span class="sub zh">Elastic Slide</span>
+          <span class="sub en">弹性滑入</span>
           <code>2^(-10t)·sin(...)</code>
         </figcaption>
       </figure>
@@ -187,8 +229,10 @@
         </a>
         <figcaption>
           <span class="id">B14</span>
-          <span class="name">重力下坠</span>
-          <span class="en">Gravity Drop</span>
+          <span class="name zh">重力下坠</span>
+          <span class="name en">Gravity Drop</span>
+          <span class="sub zh">Gravity Drop</span>
+          <span class="sub en">重力下坠</span>
           <code>y=½·g·t²</code>
         </figcaption>
       </figure>
@@ -198,8 +242,10 @@
         </a>
         <figcaption>
           <span class="id">B15</span>
-          <span class="name">抛物线抛入</span>
-          <span class="en">Projectile Toss</span>
+          <span class="name zh">抛物线抛入</span>
+          <span class="name en">Projectile Toss</span>
+          <span class="sub zh">Projectile Toss</span>
+          <span class="sub en">抛物线抛入</span>
           <code>y=h·4t(1-t)</code>
         </figcaption>
       </figure>
@@ -209,8 +255,10 @@
         </a>
         <figcaption>
           <span class="id">B16</span>
-          <span class="name">阻尼回正</span>
-          <span class="en">Damped Settle</span>
+          <span class="name zh">阻尼回正</span>
+          <span class="name en">Damped Settle</span>
+          <span class="sub zh">Damped Settle</span>
+          <span class="sub en">阻尼回正</span>
           <code>A·e^(-ζt)·cos(ωt)</code>
         </figcaption>
       </figure>
@@ -220,8 +268,10 @@
         </a>
         <figcaption>
           <span class="id">B17</span>
-          <span class="name">速度模糊滑入</span>
-          <span class="en">Motion-Blur Slide</span>
+          <span class="name zh">速度模糊滑入</span>
+          <span class="name en">Motion-Blur Slide</span>
+          <span class="sub zh">Motion-Blur Slide</span>
+          <span class="sub en">速度模糊滑入</span>
           <code>blur=k·|v|</code>
         </figcaption>
       </figure>
@@ -231,8 +281,10 @@
         </a>
         <figcaption>
           <span class="id">B18</span>
-          <span class="name">惯性甩入</span>
-          <span class="en">Inertia Whip</span>
+          <span class="name zh">惯性甩入</span>
+          <span class="name en">Inertia Whip</span>
+          <span class="sub zh">Inertia Whip</span>
+          <span class="sub en">惯性甩入</span>
           <code>easeOutExpo + skew</code>
         </figcaption>
       </figure>
@@ -242,8 +294,10 @@
         </a>
         <figcaption>
           <span class="id">B19</span>
-          <span class="name">磁吸归位</span>
-          <span class="en">Magnetic Snap</span>
+          <span class="name zh">磁吸归位</span>
+          <span class="name en">Magnetic Snap</span>
+          <span class="sub zh">Magnetic Snap</span>
+          <span class="sub en">磁吸归位</span>
           <code>pos+=(t-pos)·k</code>
         </figcaption>
       </figure>
@@ -253,20 +307,24 @@
         </a>
         <figcaption>
           <span class="id">B20</span>
-          <span class="name">折线入场</span>
-          <span class="en">Polyline Path-In</span>
+          <span class="name zh">折线入场</span>
+          <span class="name en">Polyline Path-In</span>
+          <span class="sub zh">Polyline Path-In</span>
+          <span class="sub en">折线入场</span>
           <code>分段折线插值</code>
         </figcaption>
       </figure></div></section>
-<section><h2>C · 缩放 · 形变 · 3D</h2><div class="grid">
+<section><h2><span class="zh">C · 缩放 · 形变 · 3D</span><span class="en">C · Scale · transform · 3D</span></h2><div class="grid">
       <figure class="card" id="C21">
         <a href="thumbnails/C21.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/C21.png" alt="弹簧弹出" />
         </a>
         <figcaption>
           <span class="id">C21</span>
-          <span class="name">弹簧弹出</span>
-          <span class="en">Spring Pop</span>
+          <span class="name zh">弹簧弹出</span>
+          <span class="name en">Spring Pop</span>
+          <span class="sub zh">Spring Pop</span>
+          <span class="sub en">弹簧弹出</span>
           <code>spring(scale 0→1)</code>
         </figcaption>
       </figure>
@@ -276,8 +334,10 @@
         </a>
         <figcaption>
           <span class="id">C22</span>
-          <span class="name">挤压拉伸</span>
-          <span class="en">Squash &amp; Stretch</span>
+          <span class="name zh">挤压拉伸</span>
+          <span class="name en">Squash &amp; Stretch</span>
+          <span class="sub zh">Squash &amp; Stretch</span>
+          <span class="sub en">挤压拉伸</span>
           <code>sX·sY=const</code>
         </figcaption>
       </figure>
@@ -287,8 +347,10 @@
         </a>
         <figcaption>
           <span class="id">C23</span>
-          <span class="name">旋转缩放螺入</span>
-          <span class="en">Rotate-Zoom Spiral</span>
+          <span class="name zh">旋转缩放螺入</span>
+          <span class="name en">Rotate-Zoom Spiral</span>
+          <span class="sub zh">Rotate-Zoom Spiral</span>
+          <span class="sub en">旋转缩放螺入</span>
           <code>rot:180°→0°</code>
         </figcaption>
       </figure>
@@ -298,8 +360,10 @@
         </a>
         <figcaption>
           <span class="id">C24</span>
-          <span class="name">透视纵深推入</span>
-          <span class="en">Z-Push Perspective</span>
+          <span class="name zh">透视纵深推入</span>
+          <span class="name en">Z-Push Perspective</span>
+          <span class="sub zh">Z-Push Perspective</span>
+          <span class="sub en">透视纵深推入</span>
           <code>translateZ:-800→0</code>
         </figcaption>
       </figure>
@@ -309,8 +373,10 @@
         </a>
         <figcaption>
           <span class="id">C25</span>
-          <span class="name">焦点拉近</span>
-          <span class="en">Dolly Zoom</span>
+          <span class="name zh">焦点拉近</span>
+          <span class="name en">Dolly Zoom</span>
+          <span class="sub zh">Dolly Zoom</span>
+          <span class="sub en">焦点拉近</span>
           <code>scale↑·persp↓</code>
         </figcaption>
       </figure>
@@ -320,8 +386,10 @@
         </a>
         <figcaption>
           <span class="id">C26</span>
-          <span class="name">翻牌立体</span>
-          <span class="en">3D Card Flip</span>
+          <span class="name zh">翻牌立体</span>
+          <span class="name en">3D Card Flip</span>
+          <span class="sub zh">3D Card Flip</span>
+          <span class="sub en">翻牌立体</span>
           <code>rotateY:90°→0°</code>
         </figcaption>
       </figure>
@@ -331,8 +399,10 @@
         </a>
         <figcaption>
           <span class="id">C27</span>
-          <span class="name">折纸展开</span>
-          <span class="en">Origami Unfold</span>
+          <span class="name zh">折纸展开</span>
+          <span class="name en">Origami Unfold</span>
+          <span class="sub zh">Origami Unfold</span>
+          <span class="sub en">折纸展开</span>
           <code>rotateX 分段</code>
         </figcaption>
       </figure>
@@ -342,8 +412,10 @@
         </a>
         <figcaption>
           <span class="id">C28</span>
-          <span class="name">镜像对开</span>
-          <span class="en">Mirror Split Open</span>
+          <span class="name zh">镜像对开</span>
+          <span class="name en">Mirror Split Open</span>
+          <span class="sub zh">Mirror Split Open</span>
+          <span class="sub en">镜像对开</span>
           <code>上下半分</code>
         </figcaption>
       </figure>
@@ -353,8 +425,10 @@
         </a>
         <figcaption>
           <span class="id">C29</span>
-          <span class="name">厚度生长</span>
-          <span class="en">Extrude Grow</span>
+          <span class="name zh">厚度生长</span>
+          <span class="name en">Extrude Grow</span>
+          <span class="sub zh">Extrude Grow</span>
+          <span class="sub en">厚度生长</span>
           <code>K=round(maxK·t)</code>
         </figcaption>
       </figure>
@@ -364,20 +438,24 @@
         </a>
         <figcaption>
           <span class="id">C30</span>
-          <span class="name">弹性拉伸归位</span>
-          <span class="en">Elastic Stretch</span>
+          <span class="name zh">弹性拉伸归位</span>
+          <span class="name en">Elastic Stretch</span>
+          <span class="sub zh">Elastic Stretch</span>
+          <span class="sub en">弹性拉伸归位</span>
           <code>sY=1+(S-1)·elastic</code>
         </figcaption>
       </figure></div></section>
-<section><h2>D · 模糊 · 滤镜</h2><div class="grid">
+<section><h2><span class="zh">D · 模糊 · 滤镜</span><span class="en">D · Blur · filters</span></h2><div class="grid">
       <figure class="card" id="D31">
         <a href="thumbnails/D31.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/D31.png" alt="模糊聚焦" />
         </a>
         <figcaption>
           <span class="id">D31</span>
-          <span class="name">模糊聚焦</span>
-          <span class="en">Blur-to-Focus</span>
+          <span class="name zh">模糊聚焦</span>
+          <span class="name en">Blur-to-Focus</span>
+          <span class="sub zh">Blur-to-Focus</span>
+          <span class="sub en">模糊聚焦</span>
           <code>blur:16→0</code>
         </figcaption>
       </figure>
@@ -387,8 +465,10 @@
         </a>
         <figcaption>
           <span class="id">D32</span>
-          <span class="name">失焦呼吸</span>
-          <span class="en">Focus Breathing</span>
+          <span class="name zh">失焦呼吸</span>
+          <span class="name en">Focus Breathing</span>
+          <span class="sub zh">Focus Breathing</span>
+          <span class="sub en">失焦呼吸</span>
           <code>blur=|sin(πtn)|A(1-t)</code>
         </figcaption>
       </figure>
@@ -398,8 +478,10 @@
         </a>
         <figcaption>
           <span class="id">D33</span>
-          <span class="name">墨水晕染</span>
-          <span class="en">Ink Bleed</span>
+          <span class="name zh">墨水晕染</span>
+          <span class="name en">Ink Bleed</span>
+          <span class="sub zh">Ink Bleed</span>
+          <span class="sub en">墨水晕染</span>
           <code>blur=20(1-t)²</code>
         </figcaption>
       </figure>
@@ -409,8 +491,10 @@
         </a>
         <figcaption>
           <span class="id">D34</span>
-          <span class="name">辉光绽放</span>
-          <span class="en">Glow Bloom</span>
+          <span class="name zh">辉光绽放</span>
+          <span class="name en">Glow Bloom</span>
+          <span class="sub zh">Glow Bloom</span>
+          <span class="sub en">辉光绽放</span>
           <code>shadowBlur=A·e^(-kt)</code>
         </figcaption>
       </figure>
@@ -420,8 +504,10 @@
         </a>
         <figcaption>
           <span class="id">D35</span>
-          <span class="name">色差散焦</span>
-          <span class="en">Chromatic Aberration</span>
+          <span class="name zh">色差散焦</span>
+          <span class="name en">Chromatic Aberration</span>
+          <span class="sub zh">Chromatic Aberration</span>
+          <span class="sub en">色差散焦</span>
           <code>Δ=D(1-t)</code>
         </figcaption>
       </figure>
@@ -431,8 +517,10 @@
         </a>
         <figcaption>
           <span class="id">D36</span>
-          <span class="name">半调网点</span>
-          <span class="en">Halftone Develop</span>
+          <span class="name zh">半调网点</span>
+          <span class="name en">Halftone Develop</span>
+          <span class="sub zh">Halftone Develop</span>
+          <span class="sub en">半调网点</span>
           <code>r=R(1-t)</code>
         </figcaption>
       </figure>
@@ -442,8 +530,10 @@
         </a>
         <figcaption>
           <span class="id">D37</span>
-          <span class="name">像素化解析</span>
-          <span class="en">Pixelate Resolve</span>
+          <span class="name zh">像素化解析</span>
+          <span class="name en">Pixelate Resolve</span>
+          <span class="sub zh">Pixelate Resolve</span>
+          <span class="sub en">像素化解析</span>
           <code>b=round(B(1-t))+1</code>
         </figcaption>
       </figure>
@@ -453,20 +543,24 @@
         </a>
         <figcaption>
           <span class="id">D38</span>
-          <span class="name">热浪扭曲</span>
-          <span class="en">Heat-Haze Reveal</span>
+          <span class="name zh">热浪扭曲</span>
+          <span class="name en">Heat-Haze Reveal</span>
+          <span class="sub zh">Heat-Haze Reveal</span>
+          <span class="sub en">热浪扭曲</span>
           <code>d=noise(xf+t)A(1-t)</code>
         </figcaption>
       </figure></div></section>
-<section><h2>E · 三角函数 · 波动</h2><div class="grid">
+<section><h2><span class="zh">E · 三角函数 · 波动</span><span class="en">E · Trigonometric · wave</span></h2><div class="grid">
       <figure class="card" id="E39">
         <a href="thumbnails/E39.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/E39.png" alt="正弦行波" />
         </a>
         <figcaption>
           <span class="id">E39</span>
-          <span class="name">正弦行波</span>
-          <span class="en">Traveling Sine</span>
+          <span class="name zh">正弦行波</span>
+          <span class="name en">Traveling Sine</span>
+          <span class="sub zh">Traveling Sine</span>
+          <span class="sub en">正弦行波</span>
           <code>y=A·sin(2πfu-ωt)</code>
         </figcaption>
       </figure>
@@ -476,8 +570,10 @@
         </a>
         <figcaption>
           <span class="id">E40</span>
-          <span class="name">余弦摆入</span>
-          <span class="en">Cosine Pendulum</span>
+          <span class="name zh">余弦摆入</span>
+          <span class="name en">Cosine Pendulum</span>
+          <span class="sub zh">Cosine Pendulum</span>
+          <span class="sub en">余弦摆入</span>
           <code>θ₀·cos(ωt)·e^(-kt)</code>
         </figcaption>
       </figure>
@@ -487,8 +583,10 @@
         </a>
         <figcaption>
           <span class="id">E41</span>
-          <span class="name">驻波涟漪</span>
-          <span class="en">Standing Wave</span>
+          <span class="name zh">驻波涟漪</span>
+          <span class="name en">Standing Wave</span>
+          <span class="sub zh">Standing Wave</span>
+          <span class="sub en">驻波涟漪</span>
           <code>A·sin(ku)cos(ωt)</code>
         </figcaption>
       </figure>
@@ -498,8 +596,10 @@
         </a>
         <figcaption>
           <span class="id">E42</span>
-          <span class="name">心跳脉动</span>
-          <span class="en">Heartbeat Pulse</span>
+          <span class="name zh">心跳脉动</span>
+          <span class="name en">Heartbeat Pulse</span>
+          <span class="sub zh">Heartbeat Pulse</span>
+          <span class="sub en">心跳脉动</span>
           <code>1+A(sinωt+½sin2ωt)</code>
         </figcaption>
       </figure>
@@ -509,8 +609,10 @@
         </a>
         <figcaption>
           <span class="id">E43</span>
-          <span class="name">正切骤变</span>
-          <span class="en">Tangent Snap</span>
+          <span class="name zh">正切骤变</span>
+          <span class="name en">Tangent Snap</span>
+          <span class="sub zh">Tangent Snap</span>
+          <span class="sub en">正切骤变</span>
           <code>y=A·tan((t-.5)θ)</code>
         </figcaption>
       </figure>
@@ -520,8 +622,10 @@
         </a>
         <figcaption>
           <span class="id">E44</span>
-          <span class="name">李萨如聚合</span>
-          <span class="en">Lissajous Gather</span>
+          <span class="name zh">李萨如聚合</span>
+          <span class="name en">Lissajous Gather</span>
+          <span class="sub zh">Lissajous Gather</span>
+          <span class="sub en">李萨如聚合</span>
           <code>sin(aφ+δ),sin(bφ)</code>
         </figcaption>
       </figure>
@@ -531,8 +635,10 @@
         </a>
         <figcaption>
           <span class="id">E45</span>
-          <span class="name">阻尼正弦定格</span>
-          <span class="en">Damped Sine</span>
+          <span class="name zh">阻尼正弦定格</span>
+          <span class="name en">Damped Sine</span>
+          <span class="sub zh">Damped Sine</span>
+          <span class="sub en">阻尼正弦定格</span>
           <code>A·e^(-ζt)·sin(ωt+φ)</code>
         </figcaption>
       </figure>
@@ -542,8 +648,10 @@
         </a>
         <figcaption>
           <span class="id">E46</span>
-          <span class="name">拍频闪烁</span>
-          <span class="en">Beat Flicker</span>
+          <span class="name zh">拍频闪烁</span>
+          <span class="name en">Beat Flicker</span>
+          <span class="sub zh">Beat Flicker</span>
+          <span class="sub en">拍频闪烁</span>
           <code>cos(2πf₁t)cos(2πf₂t)</code>
         </figcaption>
       </figure>
@@ -553,8 +661,10 @@
         </a>
         <figcaption>
           <span class="id">E47</span>
-          <span class="name">螺旋极坐标</span>
-          <span class="en">Polar Spiral-In</span>
+          <span class="name zh">螺旋极坐标</span>
+          <span class="name en">Polar Spiral-In</span>
+          <span class="sub zh">Polar Spiral-In</span>
+          <span class="sub en">螺旋极坐标</span>
           <code>r=R(1-t),θ=θ₀+kt</code>
         </figcaption>
       </figure>
@@ -564,8 +674,10 @@
         </a>
         <figcaption>
           <span class="id">E48</span>
-          <span class="name">波纹扩散</span>
-          <span class="en">Ripple Expand</span>
+          <span class="name zh">波纹扩散</span>
+          <span class="name en">Ripple Expand</span>
+          <span class="sub zh">Ripple Expand</span>
+          <span class="sub en">波纹扩散</span>
           <code>delay=dist·c</code>
         </figcaption>
       </figure>
@@ -575,8 +687,10 @@
         </a>
         <figcaption>
           <span class="id">E49</span>
-          <span class="name">旗帜飘动</span>
-          <span class="en">Flag Wave</span>
+          <span class="name zh">旗帜飘动</span>
+          <span class="name en">Flag Wave</span>
+          <span class="sub zh">Flag Wave</span>
+          <span class="sub en">旗帜飘动</span>
           <code>A·sin(ku-ωt)(1-t)</code>
         </figcaption>
       </figure>
@@ -586,20 +700,24 @@
         </a>
         <figcaption>
           <span class="id">E50</span>
-          <span class="name">摆线滚入</span>
-          <span class="en">Cycloid Roll-In</span>
+          <span class="name zh">摆线滚入</span>
+          <span class="name en">Cycloid Roll-In</span>
+          <span class="sub zh">Cycloid Roll-In</span>
+          <span class="sub en">摆线滚入</span>
           <code>x=R(φ-sinφ)</code>
         </figcaption>
       </figure></div></section>
-<section><h2>F · 逐字符 · 交错编排</h2><div class="grid">
+<section><h2><span class="zh">F · 逐字符 · 交错编排</span><span class="en">F · Per-character stagger</span></h2><div class="grid">
       <figure class="card" id="F51">
         <a href="thumbnails/F51.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/F51.png" alt="打字机" />
         </a>
         <figcaption>
           <span class="id">F51</span>
-          <span class="name">打字机</span>
-          <span class="en">Typewriter</span>
+          <span class="name zh">打字机</span>
+          <span class="name en">Typewriter</span>
+          <span class="sub zh">Typewriter</span>
+          <span class="sub en">打字机</span>
           <code>n=floor(t·N)</code>
         </figcaption>
       </figure>
@@ -609,8 +727,10 @@
         </a>
         <figcaption>
           <span class="id">F52</span>
-          <span class="name">线性交错</span>
-          <span class="en">Linear Stagger</span>
+          <span class="name zh">线性交错</span>
+          <span class="name en">Linear Stagger</span>
+          <span class="sub zh">Linear Stagger</span>
+          <span class="sub en">线性交错</span>
           <code>delay(i)=i·d</code>
         </figcaption>
       </figure>
@@ -620,8 +740,10 @@
         </a>
         <figcaption>
           <span class="id">F53</span>
-          <span class="name">居中开花</span>
-          <span class="en">Center-Out Bloom</span>
+          <span class="name zh">居中开花</span>
+          <span class="name en">Center-Out Bloom</span>
+          <span class="sub zh">Center-Out Bloom</span>
+          <span class="sub en">居中开花</span>
           <code>delay=|i-N/2|·d</code>
         </figcaption>
       </figure>
@@ -631,8 +753,10 @@
         </a>
         <figcaption>
           <span class="id">F54</span>
-          <span class="name">随机浮现</span>
-          <span class="en">Random Stagger</span>
+          <span class="name zh">随机浮现</span>
+          <span class="name en">Random Stagger</span>
+          <span class="sub zh">Random Stagger</span>
+          <span class="sub en">随机浮现</span>
           <code>delay=rand(i)·D</code>
         </figcaption>
       </figure>
@@ -642,8 +766,10 @@
         </a>
         <figcaption>
           <span class="id">F55</span>
-          <span class="name">高斯交错</span>
-          <span class="en">Gaussian Stagger</span>
+          <span class="name zh">高斯交错</span>
+          <span class="name en">Gaussian Stagger</span>
+          <span class="sub zh">Gaussian Stagger</span>
+          <span class="sub en">高斯交错</span>
           <code>∝1-e^(-(u-.5)²/2σ²)</code>
         </figcaption>
       </figure>
@@ -653,8 +779,10 @@
         </a>
         <figcaption>
           <span class="id">F56</span>
-          <span class="name">逐字波浪</span>
-          <span class="en">Per-Char Wave</span>
+          <span class="name zh">逐字波浪</span>
+          <span class="name en">Per-Char Wave</span>
+          <span class="sub zh">Per-Char Wave</span>
+          <span class="sub en">逐字波浪</span>
           <code>y=A·sin(ωt-iΔφ)</code>
         </figcaption>
       </figure>
@@ -664,8 +792,10 @@
         </a>
         <figcaption>
           <span class="id">F57</span>
-          <span class="name">多米诺翻倒</span>
-          <span class="en">Domino Topple</span>
+          <span class="name zh">多米诺翻倒</span>
+          <span class="name en">Domino Topple</span>
+          <span class="sub zh">Domino Topple</span>
+          <span class="sub en">多米诺翻倒</span>
           <code>rot=90°(1-τ)</code>
         </figcaption>
       </figure>
@@ -675,8 +805,10 @@
         </a>
         <figcaption>
           <span class="id">F58</span>
-          <span class="name">字距收拢</span>
-          <span class="en">Spacing Collapse</span>
+          <span class="name zh">字距收拢</span>
+          <span class="name en">Spacing Collapse</span>
+          <span class="sub zh">Spacing Collapse</span>
+          <span class="sub en">字距收拢</span>
           <code>spacing=lerp(W,0,t)</code>
         </figcaption>
       </figure>
@@ -686,8 +818,10 @@
         </a>
         <figcaption>
           <span class="id">F59</span>
-          <span class="name">逐行上推</span>
-          <span class="en">Line Mask Up</span>
+          <span class="name zh">逐行上推</span>
+          <span class="name en">Line Mask Up</span>
+          <span class="sub zh">Line Mask Up</span>
+          <span class="sub en">逐行上推</span>
           <code>y:100%→0</code>
         </figcaption>
       </figure>
@@ -697,8 +831,10 @@
         </a>
         <figcaption>
           <span class="id">F60</span>
-          <span class="name">词级弹入</span>
-          <span class="en">Word Pop</span>
+          <span class="name zh">词级弹入</span>
+          <span class="name en">Word Pop</span>
+          <span class="sub zh">Word Pop</span>
+          <span class="sub en">词级弹入</span>
           <code>delay(w)=w·d</code>
         </figcaption>
       </figure>
@@ -708,8 +844,10 @@
         </a>
         <figcaption>
           <span class="id">F61</span>
-          <span class="name">卷帘百叶</span>
-          <span class="en">Vertical Blinds</span>
+          <span class="name zh">卷帘百叶</span>
+          <span class="name en">Vertical Blinds</span>
+          <span class="sub zh">Vertical Blinds</span>
+          <span class="sub en">卷帘百叶</span>
           <code>scaleX:0→1</code>
         </figcaption>
       </figure>
@@ -719,20 +857,24 @@
         </a>
         <figcaption>
           <span class="id">F62</span>
-          <span class="name">蛇形进场</span>
-          <span class="en">Boustrophedon</span>
+          <span class="name zh">蛇形进场</span>
+          <span class="name en">Boustrophedon</span>
+          <span class="sub zh">Boustrophedon</span>
+          <span class="sub en">蛇形进场</span>
           <code>蛇形重排 delay</code>
         </figcaption>
       </figure></div></section>
-<section><h2>G · 裁剪 · 遮罩</h2><div class="grid">
+<section><h2><span class="zh">G · 裁剪 · 遮罩</span><span class="en">G · Clip · mask</span></h2><div class="grid">
       <figure class="card" id="G63">
         <a href="thumbnails/G63.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/G63.png" alt="横向擦除" />
         </a>
         <figcaption>
           <span class="id">G63</span>
-          <span class="name">横向擦除</span>
-          <span class="en">Horizontal Wipe</span>
+          <span class="name zh">横向擦除</span>
+          <span class="name en">Horizontal Wipe</span>
+          <span class="sub zh">Horizontal Wipe</span>
+          <span class="sub en">横向擦除</span>
           <code>inset(0 (100(1-p))% 0 0)</code>
         </figcaption>
       </figure>
@@ -742,8 +884,10 @@
         </a>
         <figcaption>
           <span class="id">G64</span>
-          <span class="name">对角揭示</span>
-          <span class="en">Diagonal Reveal</span>
+          <span class="name zh">对角揭示</span>
+          <span class="name en">Diagonal Reveal</span>
+          <span class="sub zh">Diagonal Reveal</span>
+          <span class="sub en">对角揭示</span>
           <code>polygon(...) 推进</code>
         </figcaption>
       </figure>
@@ -753,8 +897,10 @@
         </a>
         <figcaption>
           <span class="id">G65</span>
-          <span class="name">圆形光圈</span>
-          <span class="en">Circular Iris</span>
+          <span class="name zh">圆形光圈</span>
+          <span class="name en">Circular Iris</span>
+          <span class="sub zh">Circular Iris</span>
+          <span class="sub en">圆形光圈</span>
           <code>circle(p·150%)</code>
         </figcaption>
       </figure>
@@ -764,8 +910,10 @@
         </a>
         <figcaption>
           <span class="id">G66</span>
-          <span class="name">马赛克揭示</span>
-          <span class="en">Mosaic Reveal</span>
+          <span class="name zh">马赛克揭示</span>
+          <span class="name en">Mosaic Reveal</span>
+          <span class="sub zh">Mosaic Reveal</span>
+          <span class="sub en">马赛克揭示</span>
           <code>delay=rand(r,c)·D</code>
         </figcaption>
       </figure>
@@ -775,8 +923,10 @@
         </a>
         <figcaption>
           <span class="id">G67</span>
-          <span class="name">扫描线显影</span>
-          <span class="en">Scanline Develop</span>
+          <span class="name zh">扫描线显影</span>
+          <span class="name en">Scanline Develop</span>
+          <span class="sub zh">Scanline Develop</span>
+          <span class="sub en">扫描线显影</span>
           <code>y&lt;lerp(0,H,t)</code>
         </figcaption>
       </figure>
@@ -786,8 +936,10 @@
         </a>
         <figcaption>
           <span class="id">G68</span>
-          <span class="name">形状蒙版</span>
-          <span class="en">SVG Mask Grow</span>
+          <span class="name zh">形状蒙版</span>
+          <span class="name en">SVG Mask Grow</span>
+          <span class="sub zh">SVG Mask Grow</span>
+          <span class="sub en">形状蒙版</span>
           <code>mask scale=p</code>
         </figcaption>
       </figure>
@@ -797,8 +949,10 @@
         </a>
         <figcaption>
           <span class="id">G69</span>
-          <span class="name">笔画手写</span>
-          <span class="en">Handwriting</span>
+          <span class="name zh">笔画手写</span>
+          <span class="name en">Handwriting</span>
+          <span class="sub zh">Handwriting</span>
+          <span class="sub en">笔画手写</span>
           <code>dashoffset=L(1-p)</code>
         </figcaption>
       </figure>
@@ -808,20 +962,24 @@
         </a>
         <figcaption>
           <span class="id">G70</span>
-          <span class="name">液面上涨</span>
-          <span class="en">Liquid Fill Up</span>
+          <span class="name zh">液面上涨</span>
+          <span class="name en">Liquid Fill Up</span>
+          <span class="sub zh">Liquid Fill Up</span>
+          <span class="sub en">液面上涨</span>
           <code>h=lerp(0,H,p)</code>
         </figcaption>
       </figure></div></section>
-<section><h2>H · 噪声 · 随机</h2><div class="grid">
+<section><h2><span class="zh">H · 噪声 · 随机</span><span class="en">H · Noise · randomness</span></h2><div class="grid">
       <figure class="card" id="H71">
         <a href="thumbnails/H71.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/H71.png" alt="噪声抖动收敛" />
         </a>
         <figcaption>
           <span class="id">H71</span>
-          <span class="name">噪声抖动收敛</span>
-          <span class="en">Noise Jitter Settle</span>
+          <span class="name zh">噪声抖动收敛</span>
+          <span class="name en">Noise Jitter Settle</span>
+          <span class="sub zh">Noise Jitter Settle</span>
+          <span class="sub en">噪声抖动收敛</span>
           <code>noise(i,tf)·A(1-t)</code>
         </figcaption>
       </figure>
@@ -831,8 +989,10 @@
         </a>
         <figcaption>
           <span class="id">H72</span>
-          <span class="name">乱码解码</span>
-          <span class="en">Scramble / Decode</span>
+          <span class="name zh">乱码解码</span>
+          <span class="name en">Scramble / Decode</span>
+          <span class="sub zh">Scramble / Decode</span>
+          <span class="sub en">乱码解码</span>
           <code>lock(i)=i·d</code>
         </figcaption>
       </figure>
@@ -842,8 +1002,10 @@
         </a>
         <figcaption>
           <span class="id">H73</span>
-          <span class="name">沙化重组</span>
-          <span class="en">Sand Reform</span>
+          <span class="name zh">沙化重组</span>
+          <span class="name en">Sand Reform</span>
+          <span class="sub zh">Sand Reform</span>
+          <span class="sub en">沙化重组</span>
           <code>lerp(rand,target,t)</code>
         </figcaption>
       </figure>
@@ -853,8 +1015,10 @@
         </a>
         <figcaption>
           <span class="id">H74</span>
-          <span class="name">概率点亮</span>
-          <span class="en">Stochastic Light-Up</span>
+          <span class="name zh">概率点亮</span>
+          <span class="name en">Stochastic Light-Up</span>
+          <span class="sub zh">Stochastic Light-Up</span>
+          <span class="sub en">概率点亮</span>
           <code>rand(i)&lt;t</code>
         </figcaption>
       </figure>
@@ -864,8 +1028,10 @@
         </a>
         <figcaption>
           <span class="id">H75</span>
-          <span class="name">布朗漂入</span>
-          <span class="en">Brownian Drift-In</span>
+          <span class="name zh">布朗漂入</span>
+          <span class="name en">Brownian Drift-In</span>
+          <span class="sub zh">Brownian Drift-In</span>
+          <span class="sub en">布朗漂入</span>
           <code>pos+=randn·σ(1-t)</code>
         </figcaption>
       </figure>
@@ -875,8 +1041,10 @@
         </a>
         <figcaption>
           <span class="id">H76</span>
-          <span class="name">泊松雨滴</span>
-          <span class="en">Poisson Rain</span>
+          <span class="name zh">泊松雨滴</span>
+          <span class="name en">Poisson Rain</span>
+          <span class="sub zh">Poisson Rain</span>
+          <span class="sub en">泊松雨滴</span>
           <code>间隔~Exp(λ)</code>
         </figcaption>
       </figure>
@@ -886,8 +1054,10 @@
         </a>
         <figcaption>
           <span class="id">H77</span>
-          <span class="name">噪声场流入</span>
-          <span class="en">Curl-Noise Flow</span>
+          <span class="name zh">噪声场流入</span>
+          <span class="name en">Curl-Noise Flow</span>
+          <span class="sub zh">Curl-Noise Flow</span>
+          <span class="sub en">噪声场流入</span>
           <code>v=curl(noise)(1-t)</code>
         </figcaption>
       </figure>
@@ -897,8 +1067,10 @@
         </a>
         <figcaption>
           <span class="id">H78</span>
-          <span class="name">信噪比上升</span>
-          <span class="en">SNR Rise</span>
+          <span class="name zh">信噪比上升</span>
+          <span class="name en">SNR Rise</span>
+          <span class="sub zh">SNR Rise</span>
+          <span class="sub en">信噪比上升</span>
           <code>lerp(noise,glyph,t)</code>
         </figcaption>
       </figure>
@@ -908,8 +1080,10 @@
         </a>
         <figcaption>
           <span class="id">H79</span>
-          <span class="name">抖动溶解</span>
-          <span class="en">Dither Dissolve</span>
+          <span class="name zh">抖动溶解</span>
+          <span class="name en">Dither Dissolve</span>
+          <span class="sub zh">Dither Dissolve</span>
+          <span class="sub en">抖动溶解</span>
           <code>bayer(x,y)&lt;t</code>
         </figcaption>
       </figure>
@@ -919,20 +1093,24 @@
         </a>
         <figcaption>
           <span class="id">H80</span>
-          <span class="name">量子坍缩</span>
-          <span class="en">Quantum Collapse</span>
+          <span class="name zh">量子坍缩</span>
+          <span class="name en">Quantum Collapse</span>
+          <span class="sub zh">Quantum Collapse</span>
+          <span class="sub en">量子坍缩</span>
           <code>softmax→target</code>
         </figcaption>
       </figure></div></section>
-<section><h2>I · 粒子 · 重组</h2><div class="grid">
+<section><h2><span class="zh">I · 粒子 · 重组</span><span class="en">I · Particles · reassembly</span></h2><div class="grid">
       <figure class="card" id="I81">
         <a href="thumbnails/I81.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/I81.png" alt="粒子聚合" />
         </a>
         <figcaption>
           <span class="id">I81</span>
-          <span class="name">粒子聚合</span>
-          <span class="en">Particle Assemble</span>
+          <span class="name zh">粒子聚合</span>
+          <span class="name en">Particle Assemble</span>
+          <span class="sub zh">Particle Assemble</span>
+          <span class="sub en">粒子聚合</span>
           <code>lerp(spawn,glyph,t)</code>
         </figcaption>
       </figure>
@@ -942,8 +1120,10 @@
         </a>
         <figcaption>
           <span class="id">I82</span>
-          <span class="name">破碎逆放</span>
-          <span class="en">Reverse Shatter</span>
+          <span class="name zh">破碎逆放</span>
+          <span class="name en">Reverse Shatter</span>
+          <span class="sub zh">Reverse Shatter</span>
+          <span class="sub en">破碎逆放</span>
           <code>lerp(scatter,0,p)</code>
         </figcaption>
       </figure>
@@ -953,8 +1133,10 @@
         </a>
         <figcaption>
           <span class="id">I83</span>
-          <span class="name">冲击波成形</span>
-          <span class="en">Shockwave Form</span>
+          <span class="name zh">冲击波成形</span>
+          <span class="name en">Shockwave Form</span>
+          <span class="sub zh">Shockwave Form</span>
+          <span class="sub en">冲击波成形</span>
           <code>dist&lt;R(t)</code>
         </figcaption>
       </figure>
@@ -964,8 +1146,10 @@
         </a>
         <figcaption>
           <span class="id">I84</span>
-          <span class="name">烟雾凝结</span>
-          <span class="en">Smoke Condense</span>
+          <span class="name zh">烟雾凝结</span>
+          <span class="name en">Smoke Condense</span>
+          <span class="sub zh">Smoke Condense</span>
+          <span class="sub en">烟雾凝结</span>
           <code>扩散半径∝(1-t)</code>
         </figcaption>
       </figure>
@@ -975,8 +1159,10 @@
         </a>
         <figcaption>
           <span class="id">I85</span>
-          <span class="name">磁粉吸附</span>
-          <span class="en">Ferrofluid Pull</span>
+          <span class="name zh">磁粉吸附</span>
+          <span class="name en">Ferrofluid Pull</span>
+          <span class="sub zh">Ferrofluid Pull</span>
+          <span class="sub en">磁粉吸附</span>
           <code>沿法线·noise·p</code>
         </figcaption>
       </figure>
@@ -986,8 +1172,10 @@
         </a>
         <figcaption>
           <span class="id">I86</span>
-          <span class="name">体素堆叠</span>
-          <span class="en">Voxel Stack-Up</span>
+          <span class="name zh">体素堆叠</span>
+          <span class="name en">Voxel Stack-Up</span>
+          <span class="sub zh">Voxel Stack-Up</span>
+          <span class="sub en">体素堆叠</span>
           <code>delay=(y+rand)·d</code>
         </figcaption>
       </figure>
@@ -997,8 +1185,10 @@
         </a>
         <figcaption>
           <span class="id">I87</span>
-          <span class="name">拉链合拢</span>
-          <span class="en">Zipper Merge</span>
+          <span class="name zh">拉链合拢</span>
+          <span class="name en">Zipper Merge</span>
+          <span class="sub zh">Zipper Merge</span>
+          <span class="sub en">拉链合拢</span>
           <code>x=±X(1-easeInOut)</code>
         </figcaption>
       </figure>
@@ -1008,20 +1198,24 @@
         </a>
         <figcaption>
           <span class="id">I88</span>
-          <span class="name">细胞增殖</span>
-          <span class="en">Mitosis Spawn</span>
+          <span class="name zh">细胞增殖</span>
+          <span class="name en">Mitosis Spawn</span>
+          <span class="sub zh">Mitosis Spawn</span>
+          <span class="sub en">细胞增殖</span>
           <code>N=2^(floor(tk))</code>
         </figcaption>
       </figure></div></section>
-<section><h2>J · 颜色 · 光影</h2><div class="grid">
+<section><h2><span class="zh">J · 颜色 · 光影</span><span class="en">J · Color · light</span></h2><div class="grid">
       <figure class="card" id="J89">
         <a href="thumbnails/J89.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/J89.png" alt="色相旋转" />
         </a>
         <figcaption>
           <span class="id">J89</span>
-          <span class="name">色相旋转</span>
-          <span class="en">Hue-Rotate In</span>
+          <span class="name zh">色相旋转</span>
+          <span class="name en">Hue-Rotate In</span>
+          <span class="sub zh">Hue-Rotate In</span>
+          <span class="sub en">色相旋转</span>
           <code>hue=lerp(360n,0,t)</code>
         </figcaption>
       </figure>
@@ -1031,8 +1225,10 @@
         </a>
         <figcaption>
           <span class="id">J90</span>
-          <span class="name">流光扫光</span>
-          <span class="en">Gradient Sweep</span>
+          <span class="name zh">流光扫光</span>
+          <span class="name en">Gradient Sweep</span>
+          <span class="sub zh">Gradient Sweep</span>
+          <span class="sub en">流光扫光</span>
           <code>bgPos:-100%→200%</code>
         </figcaption>
       </figure>
@@ -1042,8 +1238,10 @@
         </a>
         <figcaption>
           <span class="id">J91</span>
-          <span class="name">冷暖渐变</span>
-          <span class="en">Blackbody Warm-Up</span>
+          <span class="name zh">冷暖渐变</span>
+          <span class="name en">Blackbody Warm-Up</span>
+          <span class="sub zh">Blackbody Warm-Up</span>
+          <span class="sub en">冷暖渐变</span>
           <code>色温 T(t)</code>
         </figcaption>
       </figure>
@@ -1053,8 +1251,10 @@
         </a>
         <figcaption>
           <span class="id">J92</span>
-          <span class="name">投影成形</span>
-          <span class="en">Long-Shadow Cast</span>
+          <span class="name zh">投影成形</span>
+          <span class="name en">Long-Shadow Cast</span>
+          <span class="sub zh">Long-Shadow Cast</span>
+          <span class="sub en">投影成形</span>
           <code>L=lerp(Lmax,L0,p)</code>
         </figcaption>
       </figure>
@@ -1064,8 +1264,10 @@
         </a>
         <figcaption>
           <span class="id">J93</span>
-          <span class="name">光照浮雕</span>
-          <span class="en">Lighting Emboss</span>
+          <span class="name zh">光照浮雕</span>
+          <span class="name en">Lighting Emboss</span>
+          <span class="sub zh">Lighting Emboss</span>
+          <span class="sub en">光照浮雕</span>
           <code>max(0,N·L(t))</code>
         </figcaption>
       </figure>
@@ -1075,20 +1277,24 @@
         </a>
         <figcaption>
           <span class="id">J94</span>
-          <span class="name">霓虹点亮</span>
-          <span class="en">Neon Sequential</span>
+          <span class="name zh">霓虹点亮</span>
+          <span class="name en">Neon Sequential</span>
+          <span class="sub zh">Neon Sequential</span>
+          <span class="sub en">霓虹点亮</span>
           <code>seg delay=k·d</code>
         </figcaption>
       </figure></div></section>
-<section><h2>K · 故障 · 数字信号</h2><div class="grid">
+<section><h2><span class="zh">K · 故障 · 数字信号</span><span class="en">K · Glitch · datamosh</span></h2><div class="grid">
       <figure class="card" id="K95">
         <a href="thumbnails/K95.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/K95.png" alt="RGB撕裂故障" />
         </a>
         <figcaption>
           <span class="id">K95</span>
-          <span class="name">RGB撕裂故障</span>
-          <span class="en">Glitch Tear</span>
+          <span class="name zh">RGB撕裂故障</span>
+          <span class="name en">Glitch Tear</span>
+          <span class="sub zh">Glitch Tear</span>
+          <span class="sub en">RGB撕裂故障</span>
           <code>step(rand(y,t)-θ)·D</code>
         </figcaption>
       </figure>
@@ -1098,8 +1304,10 @@
         </a>
         <figcaption>
           <span class="id">K96</span>
-          <span class="name">数据流下落</span>
-          <span class="en">Datamosh Cascade</span>
+          <span class="name zh">数据流下落</span>
+          <span class="name en">Datamosh Cascade</span>
+          <span class="sub zh">Datamosh Cascade</span>
+          <span class="sub en">数据流下落</span>
           <code>y=lerp(-H,0,easeOut)</code>
         </figcaption>
       </figure>
@@ -1109,20 +1317,24 @@
         </a>
         <figcaption>
           <span class="id">K97</span>
-          <span class="name">方波频闪</span>
-          <span class="en">Square-Wave Strobe</span>
+          <span class="name zh">方波频闪</span>
+          <span class="name en">Square-Wave Strobe</span>
+          <span class="sub zh">Square-Wave Strobe</span>
+          <span class="sub en">方波频闪</span>
           <code>sin(ωt)&gt;0?1:0</code>
         </figcaption>
       </figure></div></section>
-<section><h2>L · 分形 · 混沌 · 高阶</h2><div class="grid">
+<section><h2><span class="zh">L · 分形 · 混沌 · 高阶</span><span class="en">L · Fractal · chaos</span></h2><div class="grid">
       <figure class="card" id="L98">
         <a href="thumbnails/L98.png" target="_blank" rel="noopener">
           <img loading="lazy" src="thumbnails/L98.png" alt="分形递归展开" />
         </a>
         <figcaption>
           <span class="id">L98</span>
-          <span class="name">分形递归展开</span>
-          <span class="en">Fractal Unfold</span>
+          <span class="name zh">分形递归展开</span>
+          <span class="name en">Fractal Unfold</span>
+          <span class="sub zh">Fractal Unfold</span>
+          <span class="sub en">分形递归展开</span>
           <code>L 层∈[L/Lmax,...]</code>
         </figcaption>
       </figure>
@@ -1132,8 +1344,10 @@
         </a>
         <figcaption>
           <span class="id">L99</span>
-          <span class="name">混沌吸引子归位</span>
-          <span class="en">Attractor Settle</span>
+          <span class="name zh">混沌吸引子归位</span>
+          <span class="name en">Attractor Settle</span>
+          <span class="sub zh">Attractor Settle</span>
+          <span class="sub en">混沌吸引子归位</span>
           <code>洛伦兹·(1-t)</code>
         </figcaption>
       </figure>
@@ -1143,16 +1357,86 @@
         </a>
         <figcaption>
           <span class="id">L100</span>
-          <span class="name">逻辑斯蒂分岔</span>
-          <span class="en">Logistic Bifurcation</span>
+          <span class="name zh">逻辑斯蒂分岔</span>
+          <span class="name en">Logistic Bifurcation</span>
+          <span class="sub zh">Logistic Bifurcation</span>
+          <span class="sub en">逻辑斯蒂分岔</span>
           <code>x_{n+1}=r·x_n(1-x_n)</code>
         </figcaption>
       </figure></div></section>
 <section>
-  <h2>场景模板（9）</h2>
-  <table><thead><tr><th>合成 ID</th><th>名称</th><th>角色</th><th>堆叠</th><th>props</th></tr></thead><tbody><tr><td><code>SceneHero</code></td><td>主标题</td><td>单段超大居中、戏剧化进出</td><td>否</td><td><code>entries[]</code></td></tr><tr><td><code>SceneCaption</code></td><td>字幕</td><td>下三分之一、快速进出/原地替换</td><td>否</td><td><code>lines[]</code></td></tr><tr><td><code>SceneList</code></td><td>逐条列表</td><td>条目依次入场并持续累积</td><td>是</td><td><code>items[]</code></td></tr><tr><td><code>SceneLowerThird</code></td><td>角标/署名</td><td>左下品牌条、滑入停留滑出</td><td>否</td><td><code>entries[]</code></td></tr><tr><td><code>SceneEmphasis</code></td><td>行内强调</td><td>句中某词高亮登场</td><td>否</td><td><code>lines[]</code></td></tr><tr><td><code>SceneGallery</code></td><td>目录陈列</td><td>顺序陈列效果库 + 历史栈</td><td>是</td><td><code>effectIds[]</code></td></tr><tr><td><code>SceneReel</code></td><td>串联成片</td><td>多场景按顺序拼成完整成片</td><td>否</td><td><code>segments[]</code></td></tr><tr><td><code>SceneThumb</code></td><td>缩略图</td><td>单原子静态预览（生成选效果缩略图）</td><td>否</td><td><code>effectId</code></td></tr><tr><td><code>SceneWall</code></td><td>动态预览墙</td><td>全部效果网格同步循环（人类一眼选效果）</td><td>否</td><td><code>effectIds[]</code></td></tr></tbody></table>
+  <h2><span class="zh">场景模板（9）</span><span class="en">Scene templates (9)</span></h2>
+  <table><thead><tr>
+    <th><span class="zh">合成 ID</span><span class="en">Composition ID</span></th>
+    <th><span class="zh">名称</span><span class="en">Name</span></th>
+    <th><span class="zh">角色</span><span class="en">Role</span></th>
+    <th><span class="zh">堆叠</span><span class="en">Stacks</span></th>
+    <th>props</th>
+  </tr></thead><tbody><tr>
+      <td><code>SceneHero</code></td>
+      <td><span class="zh">主标题</span><span class="en">Hero</span></td>
+      <td><span class="zh">单段超大居中、戏剧化进出</span><span class="en">Single oversized centered title; dramatic in/out; no stack</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>entries[]</code></td>
+    </tr><tr>
+      <td><code>SceneCaption</code></td>
+      <td><span class="zh">字幕</span><span class="en">Caption</span></td>
+      <td><span class="zh">下三分之一、快速进出/原地替换</span><span class="en">Lower-third subtitle; quick in/out; readability-first</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>lines[]</code></td>
+    </tr><tr>
+      <td><code>SceneList</code></td>
+      <td><span class="zh">逐条列表</span><span class="en">List</span></td>
+      <td><span class="zh">条目依次入场并持续累积</span><span class="en">Items appear sequentially and accumulate</span></td>
+      <td><span class="zh">是</span><span class="en">yes</span></td>
+      <td><code>items[]</code></td>
+    </tr><tr>
+      <td><code>SceneLowerThird</code></td>
+      <td><span class="zh">角标/署名</span><span class="en">Lower-third</span></td>
+      <td><span class="zh">左下品牌条、滑入停留滑出</span><span class="en">Credit bar; slide in → hold → out</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>entries[]</code></td>
+    </tr><tr>
+      <td><code>SceneEmphasis</code></td>
+      <td><span class="zh">行内强调</span><span class="en">Emphasis</span></td>
+      <td><span class="zh">句中某词高亮登场</span><span class="en">Inline keyword / number highlight</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>lines[]</code></td>
+    </tr><tr>
+      <td><code>SceneGallery</code></td>
+      <td><span class="zh">目录陈列</span><span class="en">Gallery</span></td>
+      <td><span class="zh">顺序陈列效果库 + 历史栈</span><span class="en">Catalog: showcase the library + history stack</span></td>
+      <td><span class="zh">是</span><span class="en">yes</span></td>
+      <td><code>effectIds[]</code></td>
+    </tr><tr>
+      <td><code>SceneReel</code></td>
+      <td><span class="zh">串联成片</span><span class="en">Reel</span></td>
+      <td><span class="zh">多场景按顺序拼成完整成片</span><span class="en">Stitched film from multiple scene segments</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>segments[]</code></td>
+    </tr><tr>
+      <td><code>SceneThumb</code></td>
+      <td><span class="zh">缩略图</span><span class="en">Thumb</span></td>
+      <td><span class="zh">单原子静态预览（生成选效果缩略图）</span><span class="en">Static single-atom thumbnail</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>effectId</code></td>
+    </tr><tr>
+      <td><code>SceneWall</code></td>
+      <td><span class="zh">动态预览墙</span><span class="en">Wall</span></td>
+      <td><span class="zh">全部效果网格同步循环（人类一眼选效果）</span><span class="en">All effects looping in sync on a grid</span></td>
+      <td><span class="zh">否</span><span class="en">no</span></td>
+      <td><code>effectIds[]</code></td>
+    </tr></tbody></table>
 </section>
 <script>
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.getElementById('lang-zh').classList.toggle('active', l === 'zh');
+    document.getElementById('lang-en').classList.toggle('active', l === 'en');
+    try { localStorage.setItem('mg-lang', l); } catch (e) {}
+  }
+  try { const saved = localStorage.getItem('mg-lang'); if (saved) setLang(saved); } catch (e) {}
+
   const q = document.getElementById('q');
   const cards = [...document.querySelectorAll('.card')];
   q.addEventListener('input', () => {

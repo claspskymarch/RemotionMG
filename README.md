@@ -1,3 +1,5 @@
+<p align="right"><strong>简体中文</strong> · <a href="./README.en.md">English</a></p>
+
 # RemotionMG · 文字动效库 + 场景模板
 
 > 用 [Remotion](https://www.remotion.dev/) 做的文字进出场动效系统：**100 个纯动效原子**（不同数学表达 × 创意）+ **9 个场景模板**。
@@ -92,6 +94,35 @@ type TextEffect = {
 ![reel](docs/media/reel.webp)
 
 ---
+
+## 场景可配置参数
+
+每个场景除了 `entries/lines/items`（文字 + `effectId`）外，还可用以下**可选** props 定义排版与位置（不传即用默认值，向后兼容）：
+
+| 参数 | 类型 | 含义 | 适用场景 |
+|---|---|---|---|
+| `fontSize` | number | 字号(px) | 全部文字场景 |
+| `fontWeight` | number | 字重(100–900) | Hero/Caption/List/Emphasis/LowerThird |
+| `fontFamily` | string | 字体族 | 同上 |
+| `letterSpacing` | number | 字间距(px) | 同上 |
+| `align` | `'left'\|'center'\|'right'` | 水平对齐 | Hero/Caption/Emphasis |
+| `vAlign` | `'top'\|'center'\|'bottom'` | 垂直对齐 | Hero |
+| `offsetX` / `offsetY` | number | 位置偏移(px) | Hero/Caption/LowerThird |
+| `subSize` / `subColor` | number / string | 副标题字号/颜色 | Hero |
+| `showLabel` | boolean | 是否显示左上角场景标签 | 全部 |
+| `background` / `color` / `accent` | string | 背景/前景/强调色 | 各场景 |
+
+示例（左对齐、置顶、细体、青色、自定字号 + 位置）：
+
+```bash
+npx remotion render src/index.ts SceneHero out.mp4 --props='{
+  "entries":[{"text":"左上角标题","sub":"custom","effectId":21}],
+  "timing":{"inF":22,"holdF":40,"outF":18},
+  "background":"#0c0e1c","color":"#7fe3ff",
+  "fontSize":120,"fontWeight":400,"letterSpacing":8,
+  "align":"left","vAlign":"top","offsetX":40,"offsetY":20,"showLabel":false
+}'
+```
 
 ## 给其他 AI 调用
 

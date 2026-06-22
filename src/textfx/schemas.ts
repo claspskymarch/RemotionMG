@@ -7,6 +7,24 @@ import {z} from 'zod';
 
 export const effectIdSchema = z.number().int().min(1).max(100);
 
+export const alignSchema = z.enum(['left', 'center', 'right']);
+export const vAlignSchema = z.enum(['top', 'center', 'bottom']);
+
+/**
+ * 通用排版/位置参数（全部可选，缺省即用各场景的现有默认值）。
+ * 让调用方零改代码即可定义字重 / 字体 / 字间距 / 对齐 / 位置偏移。
+ */
+export const styleSchema = z.object({
+  fontWeight: z.number().int().positive().optional(),
+  fontFamily: z.string().optional(),
+  letterSpacing: z.number().optional(),
+  align: alignSchema.optional(),
+  offsetX: z.number().optional(),
+  offsetY: z.number().optional(),
+  showLabel: z.boolean().optional(),
+});
+export type StyleProps = z.infer<typeof styleSchema>;
+
 export const timingSchema = z.object({
   inF: z.number().int().positive(),
   holdF: z.number().int().nonnegative(),
@@ -14,15 +32,22 @@ export const timingSchema = z.object({
 });
 export type Timing = z.infer<typeof timingSchema>;
 
-export const heroSchema = z.object({
-  entries: z.array(
-    z.object({text: z.string(), sub: z.string().optional(), effectId: effectIdSchema})
-  ),
-  timing: timingSchema,
-  background: z.string(),
-  color: z.string(),
-  fontSize: z.number().positive(),
-});
+export const heroSchema = z
+  .object({
+    entries: z.array(
+      z.object({text: z.string(), sub: z.string().optional(), effectId: effectIdSchema})
+    ),
+    timing: timingSchema,
+    background: z.string(),
+    color: z.string(),
+    fontSize: z.number().positive(),
+  })
+  .merge(styleSchema)
+  .extend({
+    vAlign: vAlignSchema.optional(),
+    subSize: z.number().positive().optional(),
+    subColor: z.string().optional(),
+  });
 export type HeroProps = z.infer<typeof heroSchema>;
 
 export const captionSchema = z.object({
@@ -32,7 +57,7 @@ export const captionSchema = z.object({
   barColor: z.string(),
   color: z.string(),
   fontSize: z.number().positive(),
-});
+}).merge(styleSchema);
 export type CaptionProps = z.infer<typeof captionSchema>;
 
 export const listSchema = z.object({
@@ -43,7 +68,7 @@ export const listSchema = z.object({
   background: z.string(),
   color: z.string(),
   fontSize: z.number().positive(),
-});
+}).merge(styleSchema);
 export type ListProps = z.infer<typeof listSchema>;
 
 export const lowerThirdSchema = z.object({
@@ -53,7 +78,7 @@ export const lowerThirdSchema = z.object({
   timing: timingSchema,
   background: z.string(),
   accent: z.string(),
-});
+}).merge(styleSchema);
 export type LowerThirdProps = z.infer<typeof lowerThirdSchema>;
 
 export const emphasisSchema = z.object({
@@ -70,7 +95,7 @@ export const emphasisSchema = z.object({
   background: z.string(),
   color: z.string(),
   fontSize: z.number().positive(),
-});
+}).merge(styleSchema);
 export type EmphasisProps = z.infer<typeof emphasisSchema>;
 
 export const gallerySchema = z.object({
@@ -78,7 +103,7 @@ export const gallerySchema = z.object({
   background: z.string(),
   color: z.string(),
   fontSize: z.number().positive(),
-});
+}).merge(styleSchema);
 export type GalleryProps = z.infer<typeof gallerySchema>;
 
 export const thumbSchema = z.object({

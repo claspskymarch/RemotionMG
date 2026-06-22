@@ -3,6 +3,7 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
 import {SeqTiming, seqAt} from './sequence';
+import {DEFAULT_FONT_FAMILY, alignToFlex} from '../shared';
 
 /**
  * 场景 · Caption 字幕
@@ -18,6 +19,13 @@ export const CaptionScene: React.FC<{
   barColor?: string;
   color?: string;
   fontSize?: number;
+  fontWeight?: number;
+  fontFamily?: string;
+  letterSpacing?: number;
+  align?: 'left' | 'center' | 'right';
+  offsetX?: number;
+  offsetY?: number;
+  showLabel?: boolean;
 }> = ({
   lines,
   timing = {inF: 10, holdF: 44, outF: 8},
@@ -25,6 +33,13 @@ export const CaptionScene: React.FC<{
   barColor = 'rgba(10,14,26,0.72)',
   color = '#f2f6ff',
   fontSize = 64,
+  fontWeight = 700,
+  fontFamily = DEFAULT_FONT_FAMILY,
+  letterSpacing = 0,
+  align = 'center',
+  offsetX = 0,
+  offsetY = 0,
+  showLabel = true,
 }) => {
   const frame = useCurrentFrame();
   const {active, phase, t} = seqAt(frame, timing);
@@ -32,19 +47,22 @@ export const CaptionScene: React.FC<{
   const fx = line ? effectById(line.effectId) : null;
 
   return (
-    <AbsoluteFill style={{background, fontFamily: 'Arial, "PingFang SC", sans-serif'}}>
-      {/* 上方留白象征画面主体 */}
-      <div style={{position: 'absolute', left: 60, top: 48, fontSize: 24, letterSpacing: 4, color: '#5b6688'}}>
-        CAPTION · 下三分之一字幕
-      </div>
+    <AbsoluteFill style={{background, fontFamily}}>
+      {showLabel ? (
+        <div style={{position: 'absolute', left: 60, top: 48, fontSize: 24, letterSpacing: 4, color: '#5b6688'}}>
+          CAPTION · 下三分之一字幕
+        </div>
+      ) : null}
       <div
         style={{
           position: 'absolute',
           left: 0,
           right: 0,
-          bottom: 110,
+          bottom: 110 + offsetY * -1,
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: alignToFlex(align),
+          padding: '0 80px',
+          transform: `translateX(${offsetX}px)`,
         }}
       >
         <div
@@ -53,7 +71,7 @@ export const CaptionScene: React.FC<{
             padding: '20px 48px',
             borderRadius: 14,
             maxWidth: 1500,
-            textAlign: 'center',
+            textAlign: align,
             boxShadow: '0 18px 60px rgba(0,0,0,0.4)',
           }}
         >
@@ -66,7 +84,7 @@ export const CaptionScene: React.FC<{
               t={t}
               frame={frame}
               seed={active + 1}
-              baseStyle={{fontSize, fontWeight: 700, color, lineHeight: 1.2, whiteSpace: 'normal'}}
+              baseStyle={{fontSize, fontWeight, letterSpacing, color, lineHeight: 1.2, whiteSpace: 'normal'}}
             />
           ) : null}
         </div>
