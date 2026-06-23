@@ -12,6 +12,8 @@ import {
   THEME_CONFIG_DEFAULT,
 } from '../src/textfx/themes';
 import {EFFECT_MANIFEST, CATEGORIES} from '../src/textfx/manifest';
+import {buildPack, packBaseName} from '../src/textfx/exportPack';
+import {makeZip} from './zip';
 import {
   orderOf,
   effEffect,
@@ -216,13 +218,19 @@ export const App: React.FC = () => {
       setTimeout(() => setCopied(''), 1500);
     });
   };
-  const download = () => {
-    const blob = new Blob([json], {type: 'application/json'});
+  const downloadBlob = (blob: Blob, filename: string) => {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `theme.${config.theme}.json`;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(a.href);
+  };
+  const download = () => downloadBlob(new Blob([json], {type: 'application/json'}), `theme.${config.theme}.json`);
+  const exportPack = () => {
+    const blob = makeZip(buildPack(config));
+    downloadBlob(blob, `${packBaseName(config)}.zip`);
+    setCopied('pack');
+    setTimeout(() => setCopied(''), 1500);
   };
 
   return (
@@ -347,6 +355,16 @@ export const App: React.FC = () => {
             <button style={btn} onClick={() => copy(renderCommand(config), 'cmd')}>{copied === 'cmd' ? '已复制 ✓' : '复制命令'}</button>
           </div>
           <pre style={{margin: 0, overflow: 'auto', background: '#0a0d14', border: '1px solid #1c2434', borderRadius: 8, padding: 12, fontSize: 12}}>{renderCommand(config)}</pre>
+        </div>
+
+        <div style={panel}>
+          <div style={{...row, justifyContent: 'space-between', marginBottom: 8}}>
+            <h3 style={{...h3, margin: 0}}>导出主题包 Export pack</h3>
+            <button style={btnPrimary} onClick={exportPack}>{copied === 'pack' ? '已导出 ✓' : '导出主题包 (.zip)'}</button>
+          </div>
+          <div style={tag}>
+            打包 <code>theme.json</code>（单一事实源）+ 自动生成的中英 <code>README.md</code> + <code>render.sh</code>（拷贝即跑）。AI 与人类拿到即知道唯一一条渲染命令怎么用。
+          </div>
         </div>
       </div>
     </div>

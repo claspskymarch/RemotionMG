@@ -13,6 +13,9 @@ import {
   DEMO_CONTENT,
 } from '../src/textfx/themes';
 import {Timing} from '../src/textfx/schemas';
+import {renderCommand} from '../src/textfx/exportPack';
+
+export {renderCommand};
 
 export const DEFAULT_ORDER: ThemeRole[] = [...themeRoles];
 
@@ -94,6 +97,4 @@ export const setTiming = (c: ThemeConfig, key: keyof Timing, val: number): Theme
 /** 替换文字内容（编辑器用）。 */
 export const setContent = (c: ThemeConfig, content: ThemeContent): ThemeConfig => ({...c, content});
 
-/** 生成可直接执行的渲染命令（单行 JSON）。 */
-export const renderCommand = (c: ThemeConfig): string =>
-  `npx remotion render src/index.ts SceneTheme out.mp4 --props='${JSON.stringify(c)}'`;
+
