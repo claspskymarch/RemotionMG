@@ -19,6 +19,7 @@ import {LowerThirdScene} from './textfx/scenes/LowerThirdScene';
 import {EmphasisScene} from './textfx/scenes/EmphasisScene';
 import {GalleryScene} from './textfx/scenes/GalleryScene';
 import {ReelScene} from './textfx/scenes/ReelScene';
+import {ThemeScene} from './textfx/scenes/ThemeScene';
 import {ThumbScene} from './textfx/scenes/ThumbScene';
 import {WallScene} from './textfx/scenes/WallScene';
 import {
@@ -40,6 +41,7 @@ import {
   reelFrames,
   wallFrames,
 } from './textfx/schemas';
+import {themeConfigSchema, themeConfigFrames, THEME_CONFIG_DEFAULT} from './textfx/themes';
 import {
   HERO_DEFAULT,
   CAPTION_DEFAULT,
@@ -210,6 +212,15 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={REEL_DEFAULT}
         durationInFrames={reelFrames(REEL_DEFAULT)}
         calculateMetadata={({props}) => ({durationInFrames: reelFrames(props)})}
+        {...COMMON}
+      />
+      <Composition
+        id="SceneTheme"
+        component={ThemeScene}
+        schema={themeConfigSchema}
+        defaultProps={THEME_CONFIG_DEFAULT}
+        durationInFrames={themeConfigFrames(THEME_CONFIG_DEFAULT)}
+        calculateMetadata={({props}) => ({durationInFrames: themeConfigFrames(props)})}
         {...COMMON}
       />
       <Composition

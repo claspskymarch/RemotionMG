@@ -30,9 +30,14 @@ export {ThumbScene} from './scenes/ThumbScene';
 export {WallScene} from './scenes/WallScene';
 export {seqAt, slotLen} from './scenes/sequence';
 
+export {ThemeScene} from './scenes/ThemeScene';
+
 // schema / 时长 / 默认 props
 export * from './schemas';
 export * from './presets';
+
+// 主题系统（一键成套动效）
+export * from './themes';
 
 // 机读清单
 export * from './manifest';

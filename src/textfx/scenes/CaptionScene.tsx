@@ -3,14 +3,14 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
 import {SeqTiming, seqAt} from './sequence';
-import {DEFAULT_FONT_FAMILY, alignToFlex} from '../shared';
+import {DEFAULT_FONT_FAMILY, alignToFlex, pickPhaseEffectId} from '../shared';
 
 /**
  * 场景 · Caption 字幕
  *  下三分之一、可读性优先：快速进出、原地替换，停留时长占多数。
  *  适合：对白字幕、解说词、轻量说明。同一时刻只有一条，不堆叠。
  */
-export type CaptionLine = {text: string; effectId: number};
+export type CaptionLine = {text: string; effectId: number; inEffectId?: number; outEffectId?: number};
 
 export const CaptionScene: React.FC<{
   lines: CaptionLine[];
@@ -44,7 +44,7 @@ export const CaptionScene: React.FC<{
   const frame = useCurrentFrame();
   const {active, phase, t} = seqAt(frame, timing);
   const line = lines[Math.min(active, lines.length - 1)];
-  const fx = line ? effectById(line.effectId) : null;
+  const fx = line ? effectById(pickPhaseEffectId(line, phase)) : null;
 
   return (
     <AbsoluteFill style={{background, fontFamily}}>

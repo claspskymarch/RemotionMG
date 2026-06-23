@@ -29,6 +29,17 @@ export const vAlignToFlex = (a?: 'top' | 'center' | 'bottom'): 'flex-start' | 'c
   a === 'top' ? 'flex-start' : a === 'bottom' ? 'flex-end' : 'center';
 
 /**
+ * 按当前阶段挑选该段文字应使用的原子编号：
+ *  - phase='out'：outEffectId ?? effectId
+ *  - 否则（in/hold）：inEffectId ?? effectId
+ * 让入场与出场可以分别指定不同原子；缺省时两端共用 effectId（向后兼容）。
+ */
+export const pickPhaseEffectId = (
+  e: {effectId: number; inEffectId?: number; outEffectId?: number},
+  phase: Phase
+): number => (phase === 'out' ? e.outEffectId ?? e.effectId : e.inEffectId ?? e.effectId);
+
+/**
  * 在场度 presence ∈ [0,1]：1 = 完全到位（稳定态），0 = 完全缺席。
  *  - phase='in'：presence = ease(t)
  *  - phase='out'：presence = 1 - ease(t)

@@ -3,14 +3,14 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
 import {SeqTiming, seqAt} from './sequence';
-import {clamp01, DEFAULT_FONT_FAMILY} from '../shared';
+import {clamp01, DEFAULT_FONT_FAMILY, pickPhaseEffectId} from '../shared';
 
 /**
  * 场景 · Emphasis 行内强调
  *  一句话里某个词/数字被"点出来"：周边文字先淡入，强调词用动效原子登场并高亮。
  *  适合：关键词高亮、数字强调、解说重点。
  */
-export type EmphasisLine = {pre: string; token: string; post: string; effectId: number; accent?: string};
+export type EmphasisLine = {pre: string; token: string; post: string; effectId: number; inEffectId?: number; outEffectId?: number; accent?: string};
 
 export const EmphasisScene: React.FC<{
   lines: EmphasisLine[];
@@ -39,7 +39,7 @@ export const EmphasisScene: React.FC<{
   const {active, phase, t} = seqAt(frame, timing);
   const line = lines[Math.min(active, lines.length - 1)];
   if (!line) return <AbsoluteFill style={{background}} />;
-  const fx = effectById(line.effectId);
+  const fx = effectById(pickPhaseEffectId(line, phase));
   const accent = line.accent ?? '#ffd23f';
   const baseOpacity = phase === 'in' ? clamp01(t * 2) : 1 - clamp01(t * 2);
 

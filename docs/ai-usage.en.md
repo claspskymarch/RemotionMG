@@ -68,6 +68,41 @@ npx remotion render src/index.ts SceneHero out.mp4 --props='{
 }'
 ```
 
+### Separate entrance / exit atoms (optional)
+
+Besides `effectId`, each text entry may add `inEffectId` / `outEffectId` to override the
+entrance and exit atoms independently; when omitted both ends use `effectId` (backward compatible). E.g. scramble-decode in, RGB-tear out:
+```json
+{"text":"Title","effectId":72,"inEffectId":72,"outEffectId":95}
+```
+
+### Themes (one switch, fully coordinated set)
+
+Don't want to pick effects scene by scene? Use **SceneTheme**: choose a `theme` + fill in
+`content`, and it produces a multi-scene reel whose palette / font / timing / in&out are all
+coordinated. The theme list lives under `themes` in `effects.json`.
+
+Presets: `glitch` · `soft` · `bouncy` · `minimal` · `elegant`.
+
+```bash
+npx remotion render src/index.ts SceneTheme out.mp4 --props='{
+  "theme":"glitch",
+  "content":{
+    "hero":{"entries":[{"text":"Annual Launch","sub":"2025"}]},
+    "list":{"title":"Agenda","items":[{"text":"Product"},{"text":"Roadmap"},{"text":"Q&A"}]},
+    "caption":{"lines":[{"text":"Welcome."}]}
+  }
+}'
+```
+
+Optional fields (fine-tune within project scope, still coordinated):
+- `order`: scene order, picked from `["hero","list","lowerThird","caption","emphasis"]` (list only those you want).
+- `effects.<role>`: override in/out atoms per scene, e.g. `{"hero":{"inEffectId":47,"outEffectId":34}}`.
+- `style`: override `background/color/accent/barColor/fontFamily/fontWeight/letterSpacing`.
+- `timing`: override `{inF,holdF,outF}`.
+
+`theme` alone (no `content`) also works (built-in demo text). Scene roles absent from `content` are omitted.
+
 ### Per-scene props examples
 
 **SceneHero · Hero title** (single oversized centered line, dramatic in/out, no stacking)

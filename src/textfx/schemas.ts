@@ -7,6 +7,16 @@ import {z} from 'zod';
 
 export const effectIdSchema = z.number().int().min(1).max(100);
 
+/**
+ * 一段文字引用的动效原子。`effectId` 为基准；可选 `inEffectId`/`outEffectId`
+ * 分别覆盖入场/出场（缺省时两端都用 `effectId`）。这让主题/配置能独立切换进出。
+ */
+export const effectRefShape = {
+  effectId: effectIdSchema,
+  inEffectId: effectIdSchema.optional(),
+  outEffectId: effectIdSchema.optional(),
+};
+
 export const alignSchema = z.enum(['left', 'center', 'right']);
 export const vAlignSchema = z.enum(['top', 'center', 'bottom']);
 
@@ -35,7 +45,7 @@ export type Timing = z.infer<typeof timingSchema>;
 export const heroSchema = z
   .object({
     entries: z.array(
-      z.object({text: z.string(), sub: z.string().optional(), effectId: effectIdSchema})
+      z.object({text: z.string(), sub: z.string().optional(), ...effectRefShape})
     ),
     timing: timingSchema,
     background: z.string(),
@@ -51,7 +61,7 @@ export const heroSchema = z
 export type HeroProps = z.infer<typeof heroSchema>;
 
 export const captionSchema = z.object({
-  lines: z.array(z.object({text: z.string(), effectId: effectIdSchema})),
+  lines: z.array(z.object({text: z.string(), ...effectRefShape})),
   timing: timingSchema,
   background: z.string(),
   barColor: z.string(),
@@ -62,7 +72,7 @@ export type CaptionProps = z.infer<typeof captionSchema>;
 
 export const listSchema = z.object({
   title: z.string(),
-  items: z.array(z.object({text: z.string(), effectId: effectIdSchema})),
+  items: z.array(z.object({text: z.string(), ...effectRefShape})),
   stepFrames: z.number().int().positive(),
   inFrames: z.number().int().positive(),
   background: z.string(),
@@ -73,7 +83,7 @@ export type ListProps = z.infer<typeof listSchema>;
 
 export const lowerThirdSchema = z.object({
   entries: z.array(
-    z.object({name: z.string(), role: z.string(), effectId: effectIdSchema})
+    z.object({name: z.string(), role: z.string(), ...effectRefShape})
   ),
   timing: timingSchema,
   background: z.string(),
@@ -87,7 +97,7 @@ export const emphasisSchema = z.object({
       pre: z.string(),
       token: z.string(),
       post: z.string(),
-      effectId: effectIdSchema,
+      ...effectRefShape,
       accent: z.string().optional(),
     })
   ),

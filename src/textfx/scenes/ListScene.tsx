@@ -2,14 +2,14 @@ import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
-import {clamp01, DEFAULT_FONT_FAMILY} from '../shared';
+import {clamp01, DEFAULT_FONT_FAMILY, pickPhaseEffectId} from '../shared';
 
 /**
  * 场景 · List 逐条列表（Build）
  *  条目依次入场并**持续累积**（不出场），强调"逐条建立"。
  *  适合：要点列表、排行榜、清单、功能罗列。
  */
-export type ListItem = {text: string; effectId: number};
+export type ListItem = {text: string; effectId: number; inEffectId?: number; outEffectId?: number};
 
 export const ListScene: React.FC<{
   title?: string;
@@ -49,7 +49,7 @@ export const ListScene: React.FC<{
           const start = i * stepFrames;
           if (frame < start) return null;
           const t = clamp01((frame - start) / inFrames);
-          const fx = effectById(it.effectId);
+          const fx = effectById(pickPhaseEffectId(it, 'in'));
           return (
             <div key={i} style={{display: 'flex', alignItems: 'center', gap: 28}}>
               <span
