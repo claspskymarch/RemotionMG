@@ -69,6 +69,40 @@ npx remotion render src/index.ts SceneHero out.mp4 --props='{
 }'
 ```
 
+### 分别指定入场 / 出场原子（可选）
+
+每段文字除 `effectId` 外，可加 `inEffectId` / `outEffectId` 分别覆盖入场与出场所用原子；
+缺省时两端都用 `effectId`（向后兼容）。例：乱码解码登场、RGB 撕裂离场：
+```json
+{"text":"标题","effectId":72,"inEffectId":72,"outEffectId":95}
+```
+
+### 主题（一键成套，最省事）
+
+不想逐场景挑效果？用 **SceneTheme**：选一个主题（`theme`）+ 填文字（`content`），
+即生成整套"配色 / 字体 / 节奏 / 入出场"都协调的多场景成片。主题清单见 `effects.json` 的 `themes`。
+
+预设主题：`glitch` 故障赛博 · `soft` 柔和优雅 · `bouncy` 活力弹跳 · `minimal` 极简打字 · `elegant` 优雅衬线。
+
+```bash
+npx remotion render src/index.ts SceneTheme out.mp4 --props='{
+  "theme":"glitch",
+  "content":{
+    "hero":{"entries":[{"text":"年度发布会","sub":"2025"}]},
+    "list":{"title":"今天的内容","items":[{"text":"新品"},{"text":"路线图"},{"text":"答疑"}]},
+    "caption":{"lines":[{"text":"欢迎来到现场。"}]}
+  }
+}'
+```
+
+可选字段（在项目范围内细调，仍保持成套）：
+- `order`：场景出现顺序，取自 `["hero","list","lowerThird","caption","emphasis"]`，只列出要用的。
+- `effects.<role>`：逐场景覆盖入/出原子，如 `{"hero":{"inEffectId":47,"outEffectId":34}}`。
+- `style`：覆盖主题的 `background/color/accent/barColor/fontFamily/fontWeight/letterSpacing`。
+- `timing`：覆盖 `{inF,holdF,outF}`。
+
+只填 `theme` 不填 `content` 也能跑（用内置演示文字）。`content` 里缺省的场景角色不会出现在成片中。
+
 ### 各场景 props 示例
 
 **SceneHero · 主标题**（单段超大居中、戏剧化进出、不堆叠）

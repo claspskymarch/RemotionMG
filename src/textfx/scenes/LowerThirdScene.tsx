@@ -3,14 +3,14 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
 import {SeqTiming, seqAt} from './sequence';
-import {clamp01, easeOutCubic, lerp, DEFAULT_FONT_FAMILY} from '../shared';
+import {clamp01, easeOutCubic, lerp, DEFAULT_FONT_FAMILY, pickPhaseEffectId} from '../shared';
 
 /**
  * 场景 · Lower-third 角标 / 署名
  *  带品牌底条，从左侧滑入 → 停留 → 滑出；主名用动效原子入场，副行说明淡入。
  *  适合：人物署名、地点角标、栏目标识。
  */
-export type LowerThirdEntry = {name: string; role: string; effectId: number};
+export type LowerThirdEntry = {name: string; role: string; effectId: number; inEffectId?: number; outEffectId?: number};
 
 export const LowerThirdScene: React.FC<{
   entries: LowerThirdEntry[];
@@ -41,7 +41,7 @@ export const LowerThirdScene: React.FC<{
   const {active, phase, t} = seqAt(frame, timing);
   const entry = entries[Math.min(active, entries.length - 1)];
   if (!entry) return <AbsoluteFill style={{background}} />;
-  const fx = effectById(entry.effectId);
+  const fx = effectById(pickPhaseEffectId(entry, phase));
 
   const slide = phase === 'in' ? easeOutCubic(clamp01(t)) : 1 - easeOutCubic(clamp01(t));
   const boxX = lerp(-120, 0, slide);

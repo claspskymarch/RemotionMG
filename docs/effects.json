@@ -1,5 +1,5 @@
 {
-  "$comment": "Auto-generated. 100 个文字动效原子 + 6 个场景模板的机读清单。渲染：npx remotion render <scene.id> out.mp4 --props=<json>",
+  "$comment": "Auto-generated. 100 个文字动效原子 + 场景模板 + 主题预设的机读清单。渲染：npx remotion render <scene.id> out.mp4 --props=<json>。主题用法：渲染 SceneTheme，props={\"theme\":\"<id>\",\"content\":{...}}，逐场景可加 effects.<role>={inEffectId,outEffectId} 覆盖。",
   "categories": {
     "A": "透明度 · 多项式与指数曲线",
     "B": "缓动与方向位移",
@@ -14,6 +14,168 @@
     "K": "故障 · 数字信号",
     "L": "分形 · 混沌 · 高阶"
   },
+  "themes": [
+    {
+      "id": "glitch",
+      "name": "故障赛博",
+      "enName": "Glitch / Cyber",
+      "description": "数字故障风：乱码解码登场、RGB 撕裂离场；等宽字体、青色高亮、深色背景。",
+      "families": [
+        "H",
+        "K"
+      ],
+      "effects": {
+        "hero": {
+          "inEffectId": 72,
+          "outEffectId": 95
+        },
+        "list": {
+          "inEffectId": 74,
+          "outEffectId": 74
+        },
+        "lowerThird": {
+          "inEffectId": 72,
+          "outEffectId": 95
+        },
+        "caption": {
+          "inEffectId": 78,
+          "outEffectId": 79
+        },
+        "emphasis": {
+          "inEffectId": 95,
+          "outEffectId": 72
+        }
+      }
+    },
+    {
+      "id": "soft",
+      "name": "柔和优雅",
+      "enName": "Soft / Focus",
+      "description": "柔和聚焦风：从模糊对焦浮现、墨水晕染淡出；轻字重、蓝白配色，适合解说/科普。",
+      "families": [
+        "D",
+        "B"
+      ],
+      "effects": {
+        "hero": {
+          "inEffectId": 31,
+          "outEffectId": 33
+        },
+        "list": {
+          "inEffectId": 11,
+          "outEffectId": 11
+        },
+        "lowerThird": {
+          "inEffectId": 31,
+          "outEffectId": 33
+        },
+        "caption": {
+          "inEffectId": 31,
+          "outEffectId": 31
+        },
+        "emphasis": {
+          "inEffectId": 34,
+          "outEffectId": 31
+        }
+      }
+    },
+    {
+      "id": "bouncy",
+      "name": "活力弹跳",
+      "enName": "Bouncy / Spring",
+      "description": "弹性活泼风：弹簧弹出、旋转缩放螺入/出；橙色高亮、重字重，适合宣传/活动片。",
+      "families": [
+        "C",
+        "B"
+      ],
+      "effects": {
+        "hero": {
+          "inEffectId": 21,
+          "outEffectId": 23
+        },
+        "list": {
+          "inEffectId": 13,
+          "outEffectId": 13
+        },
+        "lowerThird": {
+          "inEffectId": 12,
+          "outEffectId": 12
+        },
+        "caption": {
+          "inEffectId": 11,
+          "outEffectId": 11
+        },
+        "emphasis": {
+          "inEffectId": 21,
+          "outEffectId": 21
+        }
+      }
+    },
+    {
+      "id": "minimal",
+      "name": "极简打字",
+      "enName": "Minimal / Type",
+      "description": "极简打字风：打字机逐字登场、字距收拢离场；近黑背景、细字重，适合代码/技术向。",
+      "families": [
+        "F"
+      ],
+      "effects": {
+        "hero": {
+          "inEffectId": 51,
+          "outEffectId": 58
+        },
+        "list": {
+          "inEffectId": 52,
+          "outEffectId": 52
+        },
+        "lowerThird": {
+          "inEffectId": 11,
+          "outEffectId": 11
+        },
+        "caption": {
+          "inEffectId": 51,
+          "outEffectId": 51
+        },
+        "emphasis": {
+          "inEffectId": 51,
+          "outEffectId": 58
+        }
+      }
+    },
+    {
+      "id": "elegant",
+      "name": "优雅衬线",
+      "enName": "Elegant / Serif",
+      "description": "优雅衬线风：螺旋极坐标归位、辉光绽放强调；衬线字体、金色高亮，适合品牌/片头。",
+      "families": [
+        "E",
+        "G",
+        "D"
+      ],
+      "effects": {
+        "hero": {
+          "inEffectId": 47,
+          "outEffectId": 40
+        },
+        "list": {
+          "inEffectId": 11,
+          "outEffectId": 11
+        },
+        "lowerThird": {
+          "inEffectId": 69,
+          "outEffectId": 63
+        },
+        "caption": {
+          "inEffectId": 11,
+          "outEffectId": 11
+        },
+        "emphasis": {
+          "inEffectId": 34,
+          "outEffectId": 31
+        }
+      }
+    }
+  ],
   "effects": [
     {
       "id": 1,
@@ -865,6 +1027,13 @@
       "role": "多场景按顺序拼成完整成片",
       "stacks": false,
       "propsKey": "segments[]"
+    },
+    {
+      "id": "SceneTheme",
+      "name": "主题成片",
+      "role": "选一个主题即一键生成整套协调的多场景成片",
+      "stacks": false,
+      "propsKey": "theme + content"
     },
     {
       "id": "SceneThumb",

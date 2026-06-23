@@ -3,7 +3,7 @@ import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import {TextFx} from '../TextFx';
 import {effectById} from '../library';
 import {SeqTiming, seqAt} from './sequence';
-import {clamp01, DEFAULT_FONT_FAMILY, alignToFlex, vAlignToFlex} from '../shared';
+import {clamp01, DEFAULT_FONT_FAMILY, alignToFlex, vAlignToFlex, pickPhaseEffectId} from '../shared';
 
 /**
  * 场景 · Hero 主标题
@@ -12,7 +12,7 @@ import {clamp01, DEFAULT_FONT_FAMILY, alignToFlex, vAlignToFlex} from '../shared
  *
  *  排版/位置全部可由 props 定义（字号/字重/字体/对齐/垂直对齐/位置偏移/副标题样式）。
  */
-export type HeroEntry = {text: string; sub?: string; effectId: number};
+export type HeroEntry = {text: string; sub?: string; effectId: number; inEffectId?: number; outEffectId?: number};
 
 export const HeroScene: React.FC<{
   entries: HeroEntry[];
@@ -51,7 +51,7 @@ export const HeroScene: React.FC<{
   const {active, phase, t} = seqAt(frame, timing);
   const entry = entries[Math.min(active, entries.length - 1)];
   if (!entry) return <AbsoluteFill style={{background}} />;
-  const fx = effectById(entry.effectId);
+  const fx = effectById(pickPhaseEffectId(entry, phase));
   const subOpacity = phase === 'in' ? clamp01((t - 0.4) / 0.5) : 1 - clamp01(t * 2);
 
   return (
